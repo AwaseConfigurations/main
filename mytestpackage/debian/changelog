@@ -1,0 +1,5 @@
+mytestpackage (0.1) natty; urgency=low
+
+ * This is a test
+
+ -- Test Dude <test@test.test>  Fri, 30 Sep 2011 16:19:04 +0200

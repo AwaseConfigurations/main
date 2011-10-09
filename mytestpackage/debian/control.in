@@ -1,0 +1,13 @@
+Source: mytestpackage
+Section: config
+Priority: extra
+Maintainer: Test Dude <test@test.test>
+Build-Depends: @cdbs@ 
+Standards-Version: 3.8.0
+
+Package: mytestpackage
+Architecture: all
+Depends: cdbs, ${misc:Depends}, elinks
+Provides: ${diverted-files}
+Conflicts: ${diverted-files}
+Description: My config package test

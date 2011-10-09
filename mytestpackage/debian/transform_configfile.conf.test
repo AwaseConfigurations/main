@@ -1,0 +1,3 @@
+#!/usr/bin/perl -0p
+s/^(The config pac)/# $1/m or die;
+

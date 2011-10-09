@@ -1,0 +1,13 @@
+Source: mytestpackage
+Section: config
+Priority: extra
+Maintainer: Test Dude <test@test.test>
+Build-Depends: cdbs (>= 0.4.23-1.1), debhelper (>= 4.2.0), config-package-dev (>= 4.5~)
+Standards-Version: 3.8.0
+
+Package: mytestpackage
+Architecture: all
+Depends: cdbs, ${misc:Depends}, elinks
+Provides: ${diverted-files}
+Conflicts: ${diverted-files}
+Description: My config package test
