@@ -1,0 +1,157 @@
+http://awaseconfigurations.wordpress.com/2011/10/02/config-package-dev-building-configuration-packages/
+Config-package-dev – Building configuration packages
+
+Due to my original test becoming too messy and confusing, I made this tutorial on how a debian config package can be done using config-package-dev.
+
+This configuration package will add # to the beginning of a certain line in a config file, in other words it will comment a line in the file. Commenting lines this way in a config file is a very common task for modifying configurations. Using packages like these is essential for large networks instead of modifying the files manually. I have marked a timestamp on these as I tested them so you can see a time estimate for how long this takes.
+
+This was tested on Ubuntu 11.04
+
+
+1. Install config-package-dev: [00:00]
+sudo apt-get install config-package-dev
+
+2. Install rest of the needed packages: [00:02]
+sudo apt-get install build-essential cdbs debhelper wdiff debian-el
+devscripts devscripts-el dh-make dpatch dpkg-awk dpkg-dev dpkg-dev-el
+equivs fakeroot lintian quilt sbuild gdebi
+
+There will be a Postfix Configuration asking for a mail server, choose ”No configuration”.
+
+3. Create a directory for your package: [00:07]
+mkdir mytestpackage
+
+4. Go to your package directory: [00:08]
+cd mytestpackage
+
+5. Now create a config file called configfile.conf: [00:08]
+nano configfile.conf
+
+This is the config file that will be modified by our config package.
+
+6.Write this to the configfile.conf: [00:08]
+
+This is a test config file.
+The config package should comment this line.
+This line should not be commented.
+
+7. Create a directory called debian and go there: [00:09]
+mkdir debian
+cd debian
+
+So now you should be in ~/mytestpackage/debian/
+
+8. Create these text files: [00:09]
+changelog
+compat
+control
+control.in
+copyright
+rules
+
+9. Write this to the changelog file: [00:10]
+
+mytestpackage (0.1) natty-unstable; urgency=low
+
+ * This is a test
+
+ -- Test Dude <test@test.test>  Wed, 28 Sep 2011 18:34:21 -0200
+
+Make sure you write this exactly like it’s written here. Of course the date and time can be
+different, but they have to be exactly in this form. Also notice that there has to be two empty
+spaces between the email<test@test.test> and the day (Wed). There has to be one empty
+space at the beginning of the line that starts with * and also same goes for the line that starts with — (two dashes).
+
+10. Write this to the compat file: [00:12]
+
+5
+
+11. Write this to the control file: [00:12]
+
+Source: mytestpackage
+Section: config
+Priority: extra
+Maintainer: Test Dude <test@test.test>
+Build-Depends: cdbs (>= 0.4.23-1.1),  debhelper (>= 4.2.0), config-package-dev (>= 4.5~)
+Standards-Version: 3.8.0
+
+Package: mytestpackage
+Architecture: all
+Depends: cdbs, ${misc:Depends}, elinks
+Provides: ${diverted-files}
+Conflicts: ${diverted-files}
+Description: My config package test
+
+12. Write this to the control.in file: [00:16]
+
+Source: mytestpackage
+Section: config
+Priority: extra
+Maintainer: Test Dude<test@test.test>
+Build-Depends: @cdbs@
+Standards-Version: 3.8.0
+
+Package: mytestpackage
+Architecture: all
+Depends: cdbs, ${misc:Depends}, elinks
+Provides: ${diverted-files}
+Conflicts: ${diverted-files}
+Description: My config package test
+
+13. Write something to the copyright file if you feel like it(the package works even if this is empty). [00:19]
+
+14. Write this to the rules file: [00:20]
+
+#!/usr/bin/make –f
+DEB_DIVERT_EXTENSION = .test
+DEB_TRANSFORM_FILES_mytestpackage += /home/[user]/mytestpackage/configfile.conf.test
+
+include /usr/share/cdbs/1/rules/debhelper.mk
+include /usr/share/cdbs/1/rules/config-package.mk
+
+Replace [user] with your username, or replace the whole path if your configfile.conf is in some
+weird location.
+
+15. Now create this text file: [00:23]
+transform_configfile.conf.test
+
+16. Write this to the transform_configfile.conf.test: [00:23]
+
+#!/usr/bin/perl -0p
+s/^(The config pac)/# $1/m or die;
+
+This is a perl operation and it will add # to the beginning of a line that starts with ”The config pac”.
+
+17. Now your package should have everything needed. Next step is building the package. [00:24]
+
+18. Go back to your mytestpackage directory: [00:24]
+cd ..
+
+Now you should be in ~/mytestpackage/
+
+19. Build your package with this command: [00:25]
+dpkg-buildpackage -rfakeroot
+
+20. Now if all goes well with the build, you should have a complete configuration package called mytestpackage_0.1_all.deb[00:26]
+
+Notice that the package might not actually be in the mytestpackage directory but in your home root instead (/home/[user]/mytestpackage_0.1_all.deb)
+
+21. Install your new package: [00:26]
+sudo gdebi mytestpackage_0.1_all.deb
+
+The last line of the install dialog should be something like ”Adding ’diversion of /home/……’”
+
+22. Now check the configfile.conf to see if the line is commented. The contents of the file should now look like this: [00:28]
+
+This is a test config file.
+# The config package should comment this line.
+This line should not be commented.
+
+If something went wrong and there’s no # at the beginning of the second line, triple check that there’s no typing mistakes anywhere in any of the files and check that the path in the debian/rules file is correct.
+
+23. Now if you wish to restore the unmodified version of the configfile.conf, you can just uninstall the configuration package: [00:30]
+sudo apt-get remove mytestpackage
+
+Resources
+
+http://debathena.mit.edu/config-packages/
