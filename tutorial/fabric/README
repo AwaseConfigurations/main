@@ -1,0 +1,176 @@
+
+http://awaseconfigurations.wordpress.com/2011/09/29/testing-fabric-with-two-virtual-machines/
+Testing Fabric with two virtual machines
+
+This is my first test with Fabric. It’s a very simple one where I just try to run a command on two virtual machines using Fabric.
+
+13:47 20.9.2011
+Started Oracle VM VirtualBox.
+Started virtual machine named hng-VirtualBox with Xubuntu 11.04.
+Started another virtual machine named hngu-VirtualBox, which didn’t yet have any OS installed.
+Started to install Ubuntu 11.04 on hngu-VirtualBox.
+
+14:09 20.9.2011
+Ubuntu 11.04 installed on the virtual machine.
+
+14:10 20.9.2011
+Downloaded Fabric 1.2.2 to hng-VirtualBox from this address:
+
+https://github.com/fabric/fabric/tarball/1.2.2
+
+Unpacked with:
+tar -xf fabric-fabric-1.2.2-0-ga7432f5.tar.gz
+
+14:20 20.9.2011
+Installed python, pycrypt, paramiko and python-setuptools, which were needed for Fabric:
+sudo apt-get install python
+sudo apt-get install python-pycryptopp
+sudo apt-get install python-setuptools
+sudo apt-get install python-paramiko
+
+You can also just use:
+sudo apt-get install python python-pycryptopp python-setuptools python-paramiko
+
+14:23 20.9.2011
+Installed Fabric:
+sudo python ~/Downloads/fabric-fabric-0402430/setup.py install
+
+14:44 20.9.2011
+Made a file called fabfile.py:
+nano fabfile.py
+
+# You can place this fabfile.py in any directory you like as long as you run the fab tool from the same directory or you can use fab -f to spesify the fabfile location.
+
+Contents of the fabfile.py:
+
+from fabric.api import run
+
+def host_name():
+run('hostname')
+
+15:01 20.9.2011
+I tested my fabfile with this command:
+fab -H localhost,10.0.2.15 host_name
+[localhost] Executing task 'host_name'
+[localhost] run: hostname
+[localhost] Login password:
+[localhost] out: hng-VirtualBox
+[localhost] out:
+[10.0.2.15] Executing task 'host_name'
+[10.0.2.15] run: hostname
+[10.0.2.15] out: hng-VirtualBox
+[10.0.2.15] out:
+Done.
+
+Disconnecting from 10.0.2.15... done.
+Disconnecting from localhost... done.
+
+15:10 20.9.2011
+FAIL: Fabric gives the same output from both machines although the output should be different.
+(from 10.0.2.15 the output should be hngu-VirtualBox and not hng-VirtualBox)
+
+15:10 20.9.2011
+I tried yet another server in which i’ve set up a public key authentication and it works exactly as it should: different machines give different output. So apparently the problem was caused by not having public key authentication on hngu-VirtualBox.
+
+15:18 20.9.2011
+Noticed that the problem wasn’t caused by public key authentication. Both my virtual machines actually had the same IP address!! (10.0.2.15). So Fabric didn’t even try to connect to the virtual machine hngu-VirtualBox.
+
+15:33 20.9.2011
+Changed both virtual machines to use bridged network adapter instead of NAT.
+
+15:36 20.9.2011
+Now my virtual machines are able to reach each other. Test:
+[hng-VirtualBox]ping 192.68.100.36 (the IP of hngu-VirtualBox)
+4 packets transmitted, 4 received, 0% packet loss, time 3003ms
+
+15:48 20.9.2011
+New attempt with Fabric now that the connection should be working:
+fab -H localhost,192.168.100.36 host_name
+[localhost] Executing task 'host_name'
+[localhost] run: hostname
+[localhost] Login password:
+[localhost] out: hng-VirtualBox
+[localhost] out:
+[192.168.100.36] Executing task 'host_name'
+[192.168.100.36] run: hostname
+[192.168.100.36] Login password:
+[192.168.100.36] Login password:
+[192.168.100.36] Login password:
+[192.168.100.36] Login password:
+[192.168.100.36] Login password:
+
+FAIL: I forgot to specify the user so my password failed.
+
+15:50 20.9.2011
+New attempt with the right username:
+fab -H localhost,hngu@192.168.100.36 host_name
+[localhost] Executing task 'host_name'
+[localhost] run: hostname
+[localhost] Login password:
+[localhost] out: hng-VirtualBox
+[localhost] out:
+[hngu@192.168.100.36] Executing task 'host_name'
+[hngu@192.168.100.36] run: hostname
+[hngu@192.168.100.36] out: hngu-VirtualBox
+[hngu@192.168.100.36] out:
+Done.
+
+Disconnecting from hngu@192.168.100.36... done.
+Disconnecting from localhost... done.
+
+SUCCESS: This time both virtual machines gave the correct output so this test was succesful.
+
+##############################################################################
+
+http://awaseconfigurations.wordpress.com/2011/09/29/fabric-test-2-operations-file-transfer/
+Fabric Test 2: Operations – File transfer
+
+Here’s my second test with Fabric. This time I tried uploading and downloading files. The same virtual machines were used as in the first Fabric test.
+
+
+17:17 21.9.2011
+Edited the fabfile(fabfile.py). New content:
+
+from fabric.api import put, get
+def putfile():
+
+put('/home/hng/testi.txt','/home/hngu/') def getfile(): get('/home/hngu/simo.txt','/home/hng/')
+
+# The putfile() task will upload a file called testi.txt to the remote machine’s directory /home/hngu/
+
+# The getfile() task will download a file called simo.txt from the remote machine’s directory /home/hngu/ and place it to /home/hng on the local machine.
+
+17:24 21.9.2011
+I created the files testi.txt and simo.txt that are to be used on this test.
+On hng-VirtualBox: nano testi.txt
+On hngu-VirtualBox: nano simo.txt
+
+17:29 21.9.2011
+Tried the upload(putfile()) task by running this command on hng-VirtualBox:
+fab -H hngu@192.168.100.36 putfile
+
+Output:
+[hngu@192.168.100.36] Executing task 'putfile'
+[hngu@192.168.100.36] Login password:
+[hngu@192.168.100.36] put: /home/hng/testi.txt -> /home/hngu/testi.txt
+Done.
+
+Disconnecting from hngu@192.168.100.36... done.
+
+17:30 21.9.2011
+SUCCESS: I checked if the file had arrived and yes it was. The test was successful.
+
+17:32 21.9.2011
+I also tried the download(getfile()) task with this command:
+fab -H hngu@192.168.100.36 getfile
+
+Output:
+[hngu@192.168.100.36] Executing task 'getfile'
+[hngu@192.168.100.36] Login password:
+[hngu@192.168.100.36] download: /home/hng/simo.txt <- /home/hngu/simo.txt
+Done.
+
+Disconnecting from hngu@192.168.100.36... done.
+
+17:32 21.9.2011
+SUCCESS: I checked that the simo.txt file had been downloaded and yes it was. The test was successful.
