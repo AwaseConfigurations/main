@@ -1,0 +1,6 @@
+This configuration package will enable php for users by
+modifying /etc/apache2/mods-enabled/php5.conf
+
+Known issues:
+Compiling or installing this package might fail if php is already 
+enabled for users.
