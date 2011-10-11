@@ -77,7 +77,7 @@ Standards-Version: 3.8.0
 
 Package: mytestpackage
 Architecture: all
-Depends: cdbs, ${misc:Depends}, elinks
+Depends: cdbs, ${misc:Depends}
 Provides: ${diverted-files}
 Conflicts: ${diverted-files}
 Description: My config package test
@@ -93,7 +93,7 @@ Standards-Version: 3.8.0
 
 Package: mytestpackage
 Architecture: all
-Depends: cdbs, ${misc:Depends}, elinks
+Depends: cdbs, ${misc:Depends}
 Provides: ${diverted-files}
 Conflicts: ${diverted-files}
 Description: My config package test
