@@ -1,0 +1,14 @@
+Source: php-enable-users
+Section: config
+Priority: extra
+Maintainer: Henri Siponen <hng.siponen@gmail.com>
+Build-Depends: @cdbs@ 
+Standards-Version: 3.8.0
+
+Package: php-enable-users
+Architecture: all
+Depends: cdbs, ${misc:Depends}
+Provides: ${diverted-files}
+Conflicts: ${diverted-files}
+Description: This package will enable php for users 
+ by modifying /etc/apache2/mods-enabled/php5.conf

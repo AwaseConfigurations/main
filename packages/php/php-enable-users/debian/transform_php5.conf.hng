@@ -1,0 +1,6 @@
+#!/usr/bin/perl -0p
+s/^(\s*<IfModule mod_userdir)/# $1/m or die;
+s/^(\s*<Directory \/home.*)/# $1/m or die;
+s/^(\s*php_admin)/# $1/m or die;
+s/^(\s*<\/Directory)/# $1/m or die;
+s/^(\s*<\/IfModule>)/# $1/m or die;

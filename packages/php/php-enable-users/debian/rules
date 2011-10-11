@@ -1,0 +1,7 @@
+#!/usr/bin/make -f
+
+DEB_DIVERT_EXTENSION = .hng
+DEB_TRANSFORM_FILES_php-enable-users += /etc/apache2/mods-enabled/php5.conf.hng
+
+include /usr/share/cdbs/1/rules/debhelper.mk
+include /usr/share/cdbs/1/rules/config-package.mk
