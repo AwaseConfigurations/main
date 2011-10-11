@@ -53,14 +53,14 @@ rules
 
 mytestpackage (0.1) natty-unstable; urgency=low
 
- * This is a test
+  * This is a test
 
  -- Test Dude <test@test.test>  Wed, 28 Sep 2011 18:34:21 -0200
 
 Make sure you write this exactly like it’s written here. Of course the date and time can be
 different, but they have to be exactly in this form. Also notice that there has to be two empty
-spaces between the email<test@test.test> and the day (Wed). There has to be one empty
-space at the beginning of the line that starts with * and also same goes for the line that starts with — (two dashes).
+spaces between the email<test@test.test> and the day (Wed). There has to be two empty
+spaces at the beginning of the line that starts with * and one on the line that starts with — (two dashes).
 
 10. Write this to the compat file: [00:12]
 
