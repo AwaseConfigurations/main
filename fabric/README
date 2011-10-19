@@ -21,7 +21,21 @@ fab status
 install
 fab install:geany
 fab install:gnome,roles='workstations'
+fab install:php5,roles='servers'
 
 reboot
 fab reboot
 fab reboot:hosts='ws1;ws2,ws3'
+
+shutdown
+fab shut_down
+
+uninstall
+fab uninstall:geany
+
+update
+fab update
+
+upgrade
+fab upgrade
+fab upgrade:roles='servers'

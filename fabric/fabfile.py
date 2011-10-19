@@ -63,7 +63,8 @@ def shut_down():
 		sudo("shutdown -P 0")
 
 def reboot():
-	sudo("shutdown -r 0")
+	if _is_host_up(env.host, int(env.port)) is True:
+		sudo("shutdown -r 0")
 
 def install(package):
 	if _is_host_up(env.host, int(env.port)) is True:
