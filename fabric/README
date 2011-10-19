@@ -14,3 +14,9 @@ fab add_user:new_user='dude'
 
 delete_user:	# this does not delete user home folder
 fab delete_user:dude
+
+status
+fab status
+
+install
+fab install:geany

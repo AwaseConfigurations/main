@@ -1,6 +1,7 @@
 from fabric.api import *
 
-env.user='admin'
+env.user='ubuntu'
+env.password='ubuntu'
 env.hosts=['webserver', 'fileserver', 'ws1','ws2', 'ws3','ws4','ws5','ws6','ws7','ws8','ws9', 'ws10','ws11', 'ws12','ws13','ws14','ws15','ws16','ws17','ws18','ws19', 'ws20','ws21','ws23','ws24','ws25','ws26','ws27','ws28','ws29','ws30']
 env.roledefs={
 	'servers' : ['webserver','fileserver'],
@@ -26,7 +27,7 @@ def config(conff):
 	sudo("gdebi -n ")	
 
 def status():
-	run("")
+	run("uptime")
 
 def shut_down():
 	sudo("shutdown -P 0")
