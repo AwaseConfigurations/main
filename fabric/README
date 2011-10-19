@@ -20,3 +20,8 @@ fab status
 
 install
 fab install:geany
+fab install:gnome,roles='workstations'
+
+reboot
+fab reboot
+fab reboot:hosts='ws1;ws2,ws3'
