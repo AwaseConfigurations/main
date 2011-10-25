@@ -41,7 +41,11 @@ def get_file(path1, path2):
 
 def add_user(new_user):
 	if _is_host_up(env.host, int(env.port)) is True:
-		sudo("adduser %s" % new_user)
+		sudo("useradd -m %s" % new_user)
+
+def change_passwd(user):
+        if _is_host_up(env.host, int(env.port)) is True:
+                sudo("passwd %s" % new_user)
 
 def delete_user(del_user):
 	if _is_host_up(env.host, int(env.port)) is True:
@@ -57,6 +61,7 @@ def delete_user(del_user):
 def status():
 	if _is_host_up(env.host, int(env.port)) is True:
 		run("uptime")
+		run("uname -a")
 
 def shut_down():
 	if _is_host_up(env.host, int(env.port)) is True:
@@ -82,4 +87,24 @@ def update():
 
 def upgrade():
 	if _is_host_up(env.host, int(env.port)) is True:
-		sudo("apt-get -y upgrade")
+		 with settings(warn_only=True):
+                        sudo("apt-get update")
+			sudo("apt-get -y upgrade")
+
+def auto_install(package): # this will auto answer "yes" to all and keep old config files
+	if _is_host_up(env.host, int(env.port)) is True:
+		with settings(warn_only=True):
+			sudo("apt-get update")
+			sudo('apt-get install -o Dpkg::Options::="--force-confold" --force-yes -y %s' % package)
+
+def auto_upgrade():
+        if _is_host_up(env.host, int(env.port)) is True:
+                with settings(warn_only=True):
+                        sudo("apt-get update")
+                        sudo('apt-get upgrade -o Dpkg::Options::="--force-confold" --force-yes -y')
+
+def auto_dist_upgrade():
+        if _is_host_up(env.host, int(env.port)) is True:
+                with settings(warn_only=True):
+                        sudo("apt-get update")
+                        sudo('apt-get dist-upgrade -o Dpkg::Options::="--force-confold" --force-yes -y')
