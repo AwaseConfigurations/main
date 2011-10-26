@@ -5,8 +5,8 @@
 # install packages that are needed for fabric, install fabric, download the
 # project fabfile.
 
-wget http://git.fabfile.org/cgit.cgi/fabric/snapshot/fabric-1.2.2.tar.gz
-tar -xf fabric-1.2.2.tar.gz
+wget http://git.fabfile.org/cgit.cgi/fabric/snapshot/fabric-1.3.1.tar.gz
+tar -xf fabric-1.3.1.tar.gz
 echo "deb http://archive.ubuntu.com/ubuntu natty universe" >> /etc/apt/sources.list
 echo "deb-src http://archive.ubuntu.com/ubuntu natty universe" >> /etc/apt/sources.list
 echo "deb http://archive.ubuntu.com/ubuntu natty-updates universe" >> /etc/apt/sources.list
@@ -15,7 +15,7 @@ echo "deb http://security.ubuntu.com/ubuntu natty-security universe" >> /etc/apt
 echo "deb-src http://security.ubuntu.com/ubuntu natty-security universe" >> /etc/apt/sources.list
 apt-get update
 apt-get install python python-pycryptopp python-setuptools python-paramiko
-cd fabric-1.2.2/
+cd fabric-1.3.1/
 python setup.py install
 wget https://raw.github.com/AwaseConfigurations/main/master/fabric/fabfile.py
 fab -l
