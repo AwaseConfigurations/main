@@ -1,6 +1,7 @@
 from fabric.api import *
 import socket
 import paramiko
+from fabric.contrib.console import confirm
 
 #webserver='172.28.212.1'
 #fileserver='172.28.212.2'
@@ -76,6 +77,13 @@ def install(package):
 		with settings(warn_only=True):
 			sudo("apt-get update")
 			sudo("apt-get -y install %s" % package)
+			if sudo("apt-get -y install %s" % package).failed:
+				for i in range(1,3):
+					sudo("apt-get update")
+                        		sudo("apt-get -y install %s" % package)
+			# result = sudo("apt-get -y install %s" % package, capture=True)
+			# if result.failed and not confirm("Install failed. Continue anyway?"):
+			# abort("Aborting!")
 
 def uninstall(package):
 	if _is_host_up(env.host, int(env.port)) is True:
