@@ -16,10 +16,10 @@ log-facility local7;
 # Subnet row defines server's network card. Also set in "/etc/default/dhcp3-server"
 # 'ifconfig' shows subnet (ipaddress, zeroes as in mask)
 subnet 172.28.0.0 netmask 255.255.0.0 {
-        host 172.28.212.1 {
+        host host1 {
                 # 'ping target_host', 'arp' shows MAC address
                 # only give DHCP information to this computer:
-                hardware ethernet aa:aa:aa:c0:8a:7f;
+                hardware ethernet 78:ac:c0:c0:8a:7f;
                 # Basic DHCP info (see 'ifconfig', 'route', 'cat /etc/resolv.conf')
                 fixed-address 172.28.212.1;
                 option subnet-mask 255.255.0.0;
@@ -28,10 +28,10 @@ subnet 172.28.0.0 netmask 255.255.0.0 {
                 # Non-essential DHCP options
                 filename "/pxelinux.0";
         }	
-        host 172.28.212.2 {
+        host host2 {
                 # 'ping target_host', 'arp' shows MAC address
                 # only give DHCP information to this computer:
-                hardware ethernet aa:aa:aa:c1:11:03;
+                hardware ethernet 78:ac:c0:c1:11:03;
                 # Basic DHCP info (see 'ifconfig', 'route', 'cat /etc/resolv.conf')
                 fixed-address 172.28.212.2;
                 option subnet-mask 255.255.0.0;
@@ -40,10 +40,10 @@ subnet 172.28.0.0 netmask 255.255.0.0 {
                 # Non-essential DHCP options
                 filename "/pxelinux.0";
         }
-        host 172.28.212.3 {
+        host host3 {
                 # 'ping target_host', 'arp' shows MAC address
                 # only give DHCP information to this computer:
-                hardware ethernet aa:aa:aa:c0:88:49;
+                hardware ethernet 78:ac:c0:c0:88:49;
                 # Basic DHCP info (see 'ifconfig', 'route', 'cat /etc/resolv.conf')
                 fixed-address 172.28.212.3;
                 option subnet-mask 255.255.0.0;
@@ -52,10 +52,10 @@ subnet 172.28.0.0 netmask 255.255.0.0 {
                 # Non-essential DHCP options
                 filename "/pxelinux.0";
         }
-        host 172.28.212.4 {
+        host host4 {
                 # 'ping target_host', 'arp' shows MAC address
                 # only give DHCP information to this computer:
-                hardware ethernet aa:aa:aa:c1:0a:83;
+                hardware ethernet 78:ac:c0:c1:0a:83;
                 # Basic DHCP info (see 'ifconfig', 'route', 'cat /etc/resolv.conf')
                 fixed-address 172.28.212.4;
                 option subnet-mask 255.255.0.0;
@@ -64,10 +64,10 @@ subnet 172.28.0.0 netmask 255.255.0.0 {
                 # Non-essential DHCP options
                 filename "/pxelinux.0";
         }
-        host 172.28.212.5 {
+        host host5 {
                 # 'ping target_host', 'arp' shows MAC address
                 # only give DHCP information to this computer:
-                hardware ethernet aa:aa:aa:c0:88:fc;
+                hardware ethernet 78:ac:c0:c0:88:fc;
                 # Basic DHCP info (see 'ifconfig', 'route', 'cat /etc/resolv.conf')
                 fixed-address 172.28.212.5;
                 option subnet-mask 255.255.0.0;
@@ -76,10 +76,10 @@ subnet 172.28.0.0 netmask 255.255.0.0 {
                 # Non-essential DHCP options
                 filename "/pxelinux.0";
         }
-        host 172.28.212.6 {
+        host host6 {
                 # 'ping target_host', 'arp' shows MAC address
                 # only give DHCP information to this computer:
-                hardware ethernet aa:aa:aa:c0:97:e7;
+                hardware ethernet 78:ac:c0:c0:97:e7;
                 # Basic DHCP info (see 'ifconfig', 'route', 'cat /etc/resolv.conf')
                 fixed-address 172.28.212.6;
                 option subnet-mask 255.255.0.0;
@@ -88,10 +88,10 @@ subnet 172.28.0.0 netmask 255.255.0.0 {
                 # Non-essential DHCP options
                 filename "/pxelinux.0";
         }
-        host 172.28.212.7 {
+        host host7 {
                 # 'ping target_host', 'arp' shows MAC address
                 # only give DHCP information to this computer:
-                hardware ethernet aa:aa:aa:c1:0a:85;
+                hardware ethernet 78:ac:c0:c1:0a:85;
                 # Basic DHCP info (see 'ifconfig', 'route', 'cat /etc/resolv.conf')
                 fixed-address 172.28.212.7;
                 option subnet-mask 255.255.0.0;
@@ -100,10 +100,10 @@ subnet 172.28.0.0 netmask 255.255.0.0 {
                 # Non-essential DHCP options
                 filename "/pxelinux.0";
         }
-        host 172.28.212.8 {
+        host host8 {
                 # 'ping target_host', 'arp' shows MAC address
                 # only give DHCP information to this computer:
-                hardware ethernet aa:aa:aa:c1:09:a6;
+                hardware ethernet 78:ac:c0:c1:09:a6;
                 # Basic DHCP info (see 'ifconfig', 'route', 'cat /etc/resolv.conf')
                 fixed-address 172.28.212.8;
                 option subnet-mask 255.255.0.0;
@@ -112,10 +112,10 @@ subnet 172.28.0.0 netmask 255.255.0.0 {
                 # Non-essential DHCP options
                 filename "/pxelinux.0";
         }
-        host 172.28.212.9 {
+        host host9 {
                 # 'ping target_host', 'arp' shows MAC address
                 # only give DHCP information to this computer:
-                hardware ethernet aa:aa:aa:c0:8a:7b;
+                hardware ethernet 78:ac:c0:c0:8a:7b;
                 # Basic DHCP info (see 'ifconfig', 'route', 'cat /etc/resolv.conf')
                 fixed-address 172.28.212.9;
                 option subnet-mask 255.255.0.0;
@@ -124,10 +124,10 @@ subnet 172.28.0.0 netmask 255.255.0.0 {
                 # Non-essential DHCP options
                 filename "/pxelinux.0";
         }
-        host 172.28.212.10 {
+        host host10 {
                 # 'ping target_host', 'arp' shows MAC address
                 # only give DHCP information to this computer:
-                hardware ethernet aa:aa:aa:ba:7a:6b;
+                hardware ethernet 78:ac:c0:ba:7a:6b;
                 # Basic DHCP info (see 'ifconfig', 'route', 'cat /etc/resolv.conf')
                 fixed-address 172.28.212.10;
                 option subnet-mask 255.255.0.0;
@@ -136,10 +136,10 @@ subnet 172.28.0.0 netmask 255.255.0.0 {
                 # Non-essential DHCP options
                 filename "/pxelinux.0";
         }
-        host 172.28.212.11 {
+        host host11 {
                 # 'ping target_host', 'arp' shows MAC address
                 # only give DHCP information to this computer:
-                hardware ethernet aa:aa:aa:c0:8e:ba;
+                hardware ethernet 78:ac:c0:c0:8e:ba;
                 # Basic DHCP info (see 'ifconfig', 'route', 'cat /etc/resolv.conf')
                 fixed-address 172.28.212.11;
                 option subnet-mask 255.255.0.0;
@@ -148,10 +148,10 @@ subnet 172.28.0.0 netmask 255.255.0.0 {
                 # Non-essential DHCP options
                 filename "/pxelinux.0";
         }
-        host 172.28.212.12 {
+        host host12 {
                 # 'ping target_host', 'arp' shows MAC address
                 # only give DHCP information to this computer:
-                hardware ethernet aa:aa:aa:c0:8d:e0;
+                hardware ethernet 78:ac:c0:c0:8d:e0;
                 # Basic DHCP info (see 'ifconfig', 'route', 'cat /etc/resolv.conf')
                 fixed-address 172.28.212.12;
                 option subnet-mask 255.255.0.0;
@@ -160,10 +160,10 @@ subnet 172.28.0.0 netmask 255.255.0.0 {
                 # Non-essential DHCP options
                 filename "/pxelinux.0";
         }
-        host 172.28.212.13 {
+        host host13 {
                 # 'ping target_host', 'arp' shows MAC address
                 # only give DHCP information to this computer:
-                hardware ethernet aa:aa:aa:c1:09:9c;
+                hardware ethernet 78:ac:c0:c1:09:9c;
                 # Basic DHCP info (see 'ifconfig', 'route', 'cat /etc/resolv.conf')
                 fixed-address 172.28.212.13;
                 option subnet-mask 255.255.0.0;
@@ -172,10 +172,10 @@ subnet 172.28.0.0 netmask 255.255.0.0 {
                 # Non-essential DHCP options
                 filename "/pxelinux.0";
         }
-        host 172.28.212.14 {
+        host host14 {
                 # 'ping target_host', 'arp' shows MAC address
                 # only give DHCP information to this computer:
-                hardware ethernet aa:aa:aa:c1:09:56;
+                hardware ethernet 78:ac:c0:c1:09:56;
                 # Basic DHCP info (see 'ifconfig', 'route', 'cat /etc/resolv.conf')
                 fixed-address 172.28.212.14;
                 option subnet-mask 255.255.0.0;
@@ -184,10 +184,10 @@ subnet 172.28.0.0 netmask 255.255.0.0 {
                 # Non-essential DHCP options
                 filename "/pxelinux.0";
         }
-        host 172.28.212.15 {
+        host host15 {
                 # 'ping target_host', 'arp' shows MAC address
                 # only give DHCP information to this computer:
-                hardware ethernet aa:aa:aa:ba:77:e4;
+                hardware ethernet 78:ac:c0:ba:77:e4;
                 # Basic DHCP info (see 'ifconfig', 'route', 'cat /etc/resolv.conf')
                 fixed-address 172.28.212.15;
                 option subnet-mask 255.255.0.0;
@@ -196,10 +196,10 @@ subnet 172.28.0.0 netmask 255.255.0.0 {
                 # Non-essential DHCP options
                 filename "/pxelinux.0";
         }
-        host 172.28.212.16 {
+        host host16 {
                 # 'ping target_host', 'arp' shows MAC address
                 # only give DHCP information to this computer:
-                hardware ethernet aa:aa:aa:c1:08:56;
+                hardware ethernet 78:ac:c0:c1:08:56;
                 # Basic DHCP info (see 'ifconfig', 'route', 'cat /etc/resolv.conf')
                 fixed-address 172.28.212.16;
                 option subnet-mask 255.255.0.0;
@@ -208,10 +208,10 @@ subnet 172.28.0.0 netmask 255.255.0.0 {
                 # Non-essential DHCP options
                 filename "/pxelinux.0";
         }
-        host 172.28.212.17 {
+        host host17 {
                 # 'ping target_host', 'arp' shows MAC address
                 # only give DHCP information to this computer:
-                hardware ethernet aa:aa:aa:c1:09:ae;
+                hardware ethernet 78:ac:c0:c1:09:ae;
                 # Basic DHCP info (see 'ifconfig', 'route', 'cat /etc/resolv.conf')
                 fixed-address 172.28.212.17;
                 option subnet-mask 255.255.0.0;
@@ -220,10 +220,10 @@ subnet 172.28.0.0 netmask 255.255.0.0 {
                 # Non-essential DHCP options
                 filename "/pxelinux.0";
         }
-        host 172.28.212.18 {
+        host host18 {
                 # 'ping target_host', 'arp' shows MAC address
                 # only give DHCP information to this computer:
-                hardware ethernet aa:aa:aa:ba:78:0b;
+                hardware ethernet 78:ac:c0:ba:78:0b;
                 # Basic DHCP info (see 'ifconfig', 'route', 'cat /etc/resolv.conf')
                 fixed-address 172.28.212.18;
                 option subnet-mask 255.255.0.0;
@@ -232,10 +232,10 @@ subnet 172.28.0.0 netmask 255.255.0.0 {
                 # Non-essential DHCP options
                 filename "/pxelinux.0";
         }
-        host 172.28.212.19 {
+        host host19 {
                 # 'ping target_host', 'arp' shows MAC address
                 # only give DHCP information to this computer:
-                hardware ethernet aa:aa:aa:c1:0a:42;
+                hardware ethernet 78:ac:c0:c1:0a:42;
                 # Basic DHCP info (see 'ifconfig', 'route', 'cat /etc/resolv.conf')
                 fixed-address 172.28.212.19;
                 option subnet-mask 255.255.0.0;
@@ -244,10 +244,10 @@ subnet 172.28.0.0 netmask 255.255.0.0 {
                 # Non-essential DHCP options
                 filename "/pxelinux.0";
         }
-        host 172.28.212.20 {
+        host host20 {
                 # 'ping target_host', 'arp' shows MAC address
                 # only give DHCP information to this computer:
-                hardware ethernet aa:aa:aa:c2:8b:b5;
+                hardware ethernet 78:ac:c0:c2:8b:b5;
                 # Basic DHCP info (see 'ifconfig', 'route', 'cat /etc/resolv.conf')
                 fixed-address 172.28.212.20;
                 option subnet-mask 255.255.0.0;
@@ -256,10 +256,10 @@ subnet 172.28.0.0 netmask 255.255.0.0 {
                 # Non-essential DHCP options
                 filename "/pxelinux.0";
         }
-        host 172.28.212.21 {
+        host host21 {
                 # 'ping target_host', 'arp' shows MAC address
                 # only give DHCP information to this computer:
-                hardware ethernet aa:aa:aa:c0:8a:d0;
+                hardware ethernet 78:ac:c0:c0:8a:d0;
                 # Basic DHCP info (see 'ifconfig', 'route', 'cat /etc/resolv.conf')
                 fixed-address 172.28.212.21;
                 option subnet-mask 255.255.0.0;
@@ -268,10 +268,10 @@ subnet 172.28.0.0 netmask 255.255.0.0 {
                 # Non-essential DHCP options
                 filename "/pxelinux.0";
         }
-        host 172.28.212.22 {
+        host host22 {
                 # 'ping target_host', 'arp' shows MAC address
                 # only give DHCP information to this computer:
-                hardware ethernet aa:aa:aa:c2:8c:cd;
+                hardware ethernet 78:ac:c0:c2:8c:cd;
                 # Basic DHCP info (see 'ifconfig', 'route', 'cat /etc/resolv.conf')
                 fixed-address 172.28.212.22;
                 option subnet-mask 255.255.0.0;
@@ -280,10 +280,10 @@ subnet 172.28.0.0 netmask 255.255.0.0 {
                 # Non-essential DHCP options
                 filename "/pxelinux.0";
         }
-        host 172.28.212.23 {
+        host host23 {
                 # 'ping target_host', 'arp' shows MAC address
                 # only give DHCP information to this computer:
-                hardware ethernet aa:aa:aa:c0:88:62;
+                hardware ethernet 78:ac:c0:c0:88:62;
                 # Basic DHCP info (see 'ifconfig', 'route', 'cat /etc/resolv.conf')
                 fixed-address 172.28.212.23;
                 option subnet-mask 255.255.0.0;
@@ -292,10 +292,10 @@ subnet 172.28.0.0 netmask 255.255.0.0 {
                 # Non-essential DHCP options
                 filename "/pxelinux.0";
         }
-        host 172.28.212.24 {
+        host host24 {
                 # 'ping target_host', 'arp' shows MAC address
                 # only give DHCP information to this computer:
-                hardware ethernet aa:aa:aa:c1:09:cb;
+                hardware ethernet 78:ac:c0:c1:09:cb;
                 # Basic DHCP info (see 'ifconfig', 'route', 'cat /etc/resolv.conf')
                 fixed-address 172.28.212.24;
                 option subnet-mask 255.255.0.0;
