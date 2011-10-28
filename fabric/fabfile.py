@@ -186,4 +186,5 @@ def reprepro_setup():
 		run("echo Architectures: i386 amd64 source >> conf/distributions")
 		run("echo Components: main non-free contrib >> conf/distributions")
 		run("echo Description: AwaseConfigurations >> conf/distributions")
-	else print("Reprepro is already installed")
+	else: 
+		print("Reprepro is already installed")
