@@ -1,0 +1,8 @@
+auto eth0
+iface eth0 inet static
+address 172.28.1.181
+netmask 255.255.0.0
+network 172.28.0.0
+broadcast 172.28.255.255
+gateway 172.28.1.254
+dns 172.28.11.67

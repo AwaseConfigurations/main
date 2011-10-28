@@ -4,25 +4,6 @@
 # This config file is in YAML 1.0 format
 # see http://yaml.org
 # ==========================================================
-##EDIT THESE TWO ENTRIES IF NEEDED, i.e. next_server and server
-# if using cobbler with manage_dhcp, put the IP address
-# of the cobbler server here so that PXE booting guests can find it
-# if you do not set this correctly, this will be manifested in TFTP open timeouts.
-next_server: 172.28.1.181
-
-# this is the address of the cobbler server -- as it is used
-# by systems during the install process, it must be the address
-# or hostname of the system as those systems can see the server.
-# if you have a server that appears differently to different subnets
-# (dual homed, etc), you need to read the --server-override section
-# of the manpage for how that works.
-server: 172.28.1.181
-
-##TO LET COBBLER MANAGE DHCP SET TO 1
-# set to 1 to enable Cobbler's DHCP management features.
-# the choice of DHCP management engine is in /etc/cobbler/modules.conf
-manage_dhcp: 1
-
 # if 1, cobbler will allow insertions of system records that duplicate
 # the --dns-name information of other system records.  In general,
 # this is undesirable and should be left 0.
@@ -99,7 +80,7 @@ default_ownership:
 # systems that reference this variable.  The factory
 # default is "cobbler" and cobbler check will warn if
 # this is not changed.
-default_password_crypted: "$1$fvcI8Xff$M/bFAobnB8OB.tv4RQ7ms."
+default_password_crypted: "$1$ZCZ.1enZ$7Tz5jMQnBR9euMq424C5U0"
 
 # for libvirt based installs in koan, if no virt bridge
 # is specified, which bridge do we try?  For EL 4/5 hosts
@@ -183,6 +164,9 @@ mgmt_classes: []
 mgmt_parameters:
    from_cobbler: 1
 
+# set to 1 to enable Cobbler's DHCP management features.
+# the choice of DHCP management engine is in /etc/cobbler/modules.conf
+manage_dhcp: 1
 
 # set to 1 to enable Cobbler's DNS management features.
 # the choice of DNS mangement engine is in /etc/cobbler/modules.conf
@@ -193,6 +177,11 @@ manage_dns: 0
 # See the Wiki (https://fedorahosted.org/cobbler/wiki/ManageDns) for more info
 manage_forward_zones: []
 manage_reverse_zones: []
+
+# if using cobbler with manage_dhcp, put the IP address
+# of the cobbler server here so that PXE booting guests can find it
+# if you do not set this correctly, this will be manifested in TFTP open timeouts.
+next_server: 172.28.1.181
 
 # settings for power management features.  optional.
 # see https://fedorahosted.org/cobbler/wiki/PowerManagement to learn more
@@ -294,6 +283,14 @@ run_install_triggers: 1
 # for use with this feature.  
 scm_track_enabled: 0
 scm_track_mode: "git"
+
+# this is the address of the cobbler server -- as it is used
+# by systems during the install process, it must be the address
+# or hostname of the system as those systems can see the server.
+# if you have a server that appears differently to different subnets
+# (dual homed, etc), you need to read the --server-override section
+# of the manpage for how that works.
+server: 172.28.1.181
 
 # this is a directory of files that cobbler uses to make
 # templating easier.  See the Wiki for more information.  Changing
