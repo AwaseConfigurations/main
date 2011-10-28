@@ -31,24 +31,29 @@ def _is_host_up(host, port):
     socket.setdefaulttimeout(original_timeout)
     return host_status
 
+@task
 def put_file(path1, path2):
 	if _is_host_up(env.host, int(env.port)) is True:
 		# check maybe needed here: does the file already exist on remote path
 		put(path1,path2)
 
+@task
 def get_file(path1, path2):
 	if _is_host_up(env.host, int(env.port)) is True:
 		get(path1,path2)
 
+@task
 def add_user(new_user):
 	if _is_host_up(env.host, int(env.port)) is True:
 		# check maybe needed here: does user already exist?
 		sudo("useradd -m %s" % new_user)
 
+@task
 def change_passwd(user):
         if _is_host_up(env.host, int(env.port)) is True:
                 sudo("passwd %s" % new_user)
 
+@task
 def delete_user(del_user):
 	if _is_host_up(env.host, int(env.port)) is True:
 		sudo("deluser %s" % del_user)
@@ -65,19 +70,23 @@ def delete_user(del_user):
 #		run("")
 #		sudo()
 
+@task
 def status():
 	if _is_host_up(env.host, int(env.port)) is True:
 		run("uptime")
 		run("uname -a")
 
+@task
 def shut_down():
 	if _is_host_up(env.host, int(env.port)) is True:
 		sudo("shutdown -P 0")
 
+@task
 def reboot():
 	if _is_host_up(env.host, int(env.port)) is True:
 		sudo("shutdown -r 0")
 
+@task
 def install(package):
 	if _is_host_up(env.host, int(env.port)) is True:
 		with settings(warn_only=True):
@@ -91,38 +100,45 @@ def install(package):
 			# if result.failed and not confirm("Install failed. Continue anyway?"):
 			# abort("Aborting!")
 
+@task
 def uninstall(package):
 	if _is_host_up(env.host, int(env.port)) is True:
 		sudo("apt-get remove %s" % package)
 
+@task
 def update():
 	if _is_host_up(env.host, int(env.port)) is True:
 		sudo("apt-get update")
 
+@task
 def upgrade():
 	if _is_host_up(env.host, int(env.port)) is True:
 		 with settings(warn_only=True):
                         sudo("apt-get update")
 			sudo("apt-get -y upgrade")
 
+@task
 def auto_install(package): # this will auto answer "yes" to all and keep old config files
 	if _is_host_up(env.host, int(env.port)) is True:
 		with settings(warn_only=True):
 			sudo("apt-get update")
 			sudo('apt-get install -o Dpkg::Options::="--force-confold" --force-yes -y %s' % package)
 
+@task
 def auto_upgrade():
         if _is_host_up(env.host, int(env.port)) is True:
                 with settings(warn_only=True):
                         sudo("apt-get update")
                         sudo('apt-get upgrade -o Dpkg::Options::="--force-confold" --force-yes -y')
 
+@task
 def auto_dist_upgrade():
         if _is_host_up(env.host, int(env.port)) is True:
                 with settings(warn_only=True):
                         sudo("apt-get update")
                         sudo('apt-get dist-upgrade -o Dpkg::Options::="--force-confold" --force-yes -y')
 
+@task
 def release_upgrade():
 	if _is_host_up(env.host, int(env.port)) is True:
 		with settings(warn_only=True):
@@ -131,6 +147,7 @@ def release_upgrade():
 			sudo("apt-get install update-manager-core")
 			sudo("do-release-upgrade")
 
+@task
 def add_reposource():
         if _is_host_up(env.host, int(env.port)) is True:
 		with cd("/etc/apt/sources.list.d/"):
@@ -140,7 +157,7 @@ def add_reposource():
 			sudo("cat repository.list.new > repository.list")
 			sudo("rm repository.list.new")
 		
-
+@task
 def static_ip():
 	run("echo auto lo > interfaces.static")
 	run("echo iface lo inet loopback >> interfaces.static")
@@ -159,13 +176,15 @@ def static_ip():
 	with settings(warn_only=True):
 		sudo("/etc/init.d/networking restart")
 
+@task
 @hosts('webserver')
 def install_apache():
 	sudo("apt-get update")
 	sudo("apt-get install apache2")
 	sudo("a2enmod userdir")
 	sudo("/etc/init.d/apache2 restart")
-	
+
+@task	
 @hosts('webserver')
 def webserver_setup():
 	install_apache()
@@ -173,11 +192,12 @@ def webserver_setup():
 	#install(php-enable-users)
 	sudo("/etc/init.d/apache2 restart")
 
+@task
 @hosts('webserver')
 def reprepro_setup():
-	with settings(hide('warnings','running','stdout','stderr')warn_only=True):
+	with settings(hide('warnings','running','stdout','stderr'),warn_only=True):
 		if run("reprepro -h").failed:
-			with settings(show('warnings','running','stdout','stderr')warn_only=True):
+			with settings(show('warnings','running','stdout','stderr'),warn_only=True):
 				sudo("apt-get update")
 				sudo("apt-get install reprepro")
 				run("mkdir conf")
@@ -190,3 +210,8 @@ def reprepro_setup():
 				run("echo Description: AwaseConfigurations >> conf/distributions")
 		else: 
 			print("Reprepro is already installed")
+
+@task(alias='atr')
+@hosts('webserver')
+def add_to_repo(path):
+	run("reprepro -Vb . includedeb awase %s" % path)
