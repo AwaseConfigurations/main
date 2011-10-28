@@ -13,6 +13,7 @@ wget http://releases.ubuntu.com/natty/ubuntu-11.04-alternate-i386.iso
 sudo software-properties-gtk -e universe
 sudo apt-get install dhcp3-server cobbler cobbler-common wakeonlan
 
+sudo service cobbler start
 sleep 1
 sudo cobbler check
 
@@ -43,3 +44,4 @@ sudo cobbler sync
 
 chmod 700 wakeup.sh
 ./wakeup.sh
+
