@@ -1,6 +1,7 @@
 fab command examples for each task:
 
 put_file:
+fab put_file:'testfile','/home/ubuntu/'
 fab put_file:hosts="admin@webserver;admin@ws1",path1='/home/admin/index.html',path2='/home/admin/public_html/'
 fab put_file:path1='/home/admin/package.deb',path2='/tmp/'
 
@@ -25,7 +26,7 @@ fab install:php5,roles='servers'
 
 reboot
 fab reboot
-fab reboot:hosts='ws1;ws2,ws3'
+fab reboot:hosts='ws1;ws2;ws3'
 
 shutdown
 fab shut_down

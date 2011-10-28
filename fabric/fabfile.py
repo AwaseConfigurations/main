@@ -19,14 +19,14 @@ env.roledefs={
 
 def _is_host_up(host, port):
     original_timeout = socket.getdefaulttimeout()
-    new_timeout = 3
+    new_timeout = 1
     socket.setdefaulttimeout(new_timeout)
     host_status = False
     try:
         transport = paramiko.Transport((host, port))
         host_status = True
     except:
-        print('***Warning*** Host {host} on port {port} is down.'.format(
+        print('{host} down.'.format(
             host=host, port=port)
         )
     socket.setdefaulttimeout(original_timeout)
@@ -53,6 +53,11 @@ def delete_user(del_user):
 		sudo("deluser %s" % del_user)
 
 #def config(conff):
+#       Some function needed here that will first check if the config package
+#       has already been installed and maybe then instead of install just
+#       update to the latest version.Or maybe apt will take care of it  
+#       as we will use it to install config packages?
+
 #	if _is_host_up(env.host, int(env.port)) is True:
 #		local('')
 #		put('/packages/','')
@@ -76,7 +81,7 @@ def install(package):
 	if _is_host_up(env.host, int(env.port)) is True:
 		with settings(warn_only=True):
 			sudo("apt-get update")
-			sudo("apt-get -y install %s" % package)
+			#sudo("apt-get -y install %s" % package)
 			if sudo("apt-get -y install %s" % package).failed:
 				for i in range(1,3):
 					sudo("apt-get update")
@@ -116,3 +121,9 @@ def auto_dist_upgrade():
                 with settings(warn_only=True):
                         sudo("apt-get update")
                         sudo('apt-get dist-upgrade -o Dpkg::Options::="--force-confold" --force-yes -y')
+
+def add_reposource():
+        if _is_host_up(env.host, int(env.port)) is True:
+                sudo("echo deb http://172.28.212.1/~ubuntu/repository natty main >> /etc/apt/sources.list.d/repository.list")
+
+
