@@ -161,7 +161,29 @@ def static_ip():
 
 @hosts('webserver')
 def install_apache():
+	sudo("apt-get update")
 	sudo("apt-get install apache2")
 	sudo("a2enmod userdir")
 	sudo("/etc/init.d/apache2 restart")
 	
+@hosts('webserver')
+def webserver_setup():
+	install_apache()
+	install(php5)
+	#install(php-enable-users)
+	sudo("/etc/init.d/apache2 restart")
+
+@hosts('webserver')
+def reprepro_setup():
+	if run("reprepro").failed:
+		sudo("apt-get update")
+		sudo("apt-get install reprepro")
+		run("mkdir conf")
+		run("echo Origin: Awase > conf/distributions")
+		run("echo Label: Awase-All >> conf/distributions")
+		run("echo Suite: stable >> conf/distributions")
+		run("echo Version: 0.1 >> conf/distributions")
+		run("echo Architectures: i386 amd64 source >> conf/distributions")
+		run("echo Components: main non-free contrib >> conf/distributions")
+		run("echo Description: AwaseConfigurations >> conf/distributions")
+	else print("Reprepro is already installed")
