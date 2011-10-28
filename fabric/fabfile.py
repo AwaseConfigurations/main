@@ -159,22 +159,23 @@ def add_reposource():
 		
 @task
 def static_ip():
-	run("echo auto lo > interfaces.static")
-	run("echo iface lo inet loopback >> interfaces.static")
-	run("echo   >> interfaces.static")
-	run("echo auto eth0 >> interfaces.static")
-	run("echo iface eth0 inet static >> interfaces.static")
-	run("echo -n -e address\ >> interfaces.static")
-	run("hostname -I >> interfaces.static")
-	run("echo netmask 255.255.0.0 >> interfaces.static")
-	run("echo network 172.28.0.0 >> interfaces.static")
-	run("echo broadcast 172.28.255.255 >> interfaces.static")
-	run("echo gateway 172.28.1.254 >> interfaces.static")
-	sudo("cat /etc/network/interfaces > /etc/network/interfaces.old")
-	sudo("cat interfaces.static > /etc/network/interfaces")
-	run("rm interfaces.static")
-	with settings(warn_only=True):
-		sudo("/etc/init.d/networking restart")
+	if _is_host_up(env.host, int(env.port)) is True:
+		run("echo auto lo > interfaces.static")
+		run("echo iface lo inet loopback >> interfaces.static")
+		run("echo   >> interfaces.static")
+		run("echo auto eth0 >> interfaces.static")
+		run("echo iface eth0 inet static >> interfaces.static")
+		run("echo -n -e address\ >> interfaces.static")
+		run("hostname -I >> interfaces.static")
+		run("echo netmask 255.255.0.0 >> interfaces.static")
+		run("echo network 172.28.0.0 >> interfaces.static")
+		run("echo broadcast 172.28.255.255 >> interfaces.static")
+		run("echo gateway 172.28.1.254 >> interfaces.static")
+		sudo("cat /etc/network/interfaces > /etc/network/interfaces.old")
+		sudo("cat interfaces.static > /etc/network/interfaces")
+		run("rm interfaces.static")
+		with settings(warn_only=True):
+			sudo("/etc/init.d/networking restart")
 
 @task
 @hosts('webserver')
