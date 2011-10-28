@@ -26,14 +26,14 @@ def _is_host_up(host, port):
         transport = paramiko.Transport((host, port))
         host_status = True
     except:
-        print('{host} down.'.format(
-            host=host, port=port)
+        print('{host} down.'.format(host=host)
         )
     socket.setdefaulttimeout(original_timeout)
     return host_status
 
 def put_file(path1, path2):
 	if _is_host_up(env.host, int(env.port)) is True:
+		# check maybe needed here: does the file already exist on remote path
 		put(path1,path2)
 
 def get_file(path1, path2):
@@ -42,6 +42,7 @@ def get_file(path1, path2):
 
 def add_user(new_user):
 	if _is_host_up(env.host, int(env.port)) is True:
+		# check maybe needed here: does user already exist?
 		sudo("useradd -m %s" % new_user)
 
 def change_passwd(user):
@@ -60,9 +61,9 @@ def delete_user(del_user):
 
 #	if _is_host_up(env.host, int(env.port)) is True:
 #		local('')
-#		put('/packages/','')
+#		put('','')
 #		run("")
-#		sudo("gdebi -n ")
+#		sudo()
 
 def status():
 	if _is_host_up(env.host, int(env.port)) is True:
@@ -81,8 +82,8 @@ def install(package):
 	if _is_host_up(env.host, int(env.port)) is True:
 		with settings(warn_only=True):
 			sudo("apt-get update")
-			#sudo("apt-get -y install %s" % package)
 			if sudo("apt-get -y install %s" % package).failed:
+				local("echo FAIL >> ~/fail.log")
 				for i in range(1,3):
 					sudo("apt-get update")
                         		sudo("apt-get -y install %s" % package)
@@ -122,8 +123,21 @@ def auto_dist_upgrade():
                         sudo("apt-get update")
                         sudo('apt-get dist-upgrade -o Dpkg::Options::="--force-confold" --force-yes -y')
 
+def release_upgrade():
+	if _is_host_up(env.host, int(env.port)) is True:
+		with(warn_only=True):
+			sudo("apt-get update")
+			sudo("apt-get upgrade")
+			sudo("apt-get install update-manager-core")
+			sudo("do-release-upgrade")
+
 def add_reposource():
         if _is_host_up(env.host, int(env.port)) is True:
-                sudo("echo deb http://172.28.212.1/~ubuntu/repository natty main >> /etc/apt/sources.list.d/repository.list")
-
+		with cd("/etc/apt/sources.list.d/"):
+			sudo("echo deb http://172.28.212.1/~ubuntu/repository natty main >> repository.list")
+			# remove duplicates:
+			sudo("sort -u repository.list > repository.list.new")
+			sudo("cat repository.list.new > repository.list")
+			sudo("rm repository.list.new")
+		
 
