@@ -1,0 +1,2 @@
+This conguration package will add enable universe and multiverse sources
+by modifying /etc/apt/sources.list

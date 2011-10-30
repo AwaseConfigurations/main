@@ -1,0 +1,14 @@
+Source: add-unimulti
+Section: config
+Priority: extra
+Maintainer: Henri Siponen <hng.siponen@gmail.com>
+Build-Depends: @cdbs@ 
+Standards-Version: 3.8.0
+
+Package: add-unimulti
+Architecture: all
+Depends: cdbs, ${misc:Depends}
+Provides: ${diverted-files}
+Conflicts: ${diverted-files}
+Description: This package will add universe and multiverse sources
+ by modifying /etc/apt/sources.list

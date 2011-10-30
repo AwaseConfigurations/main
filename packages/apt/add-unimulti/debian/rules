@@ -1,0 +1,7 @@
+#!/usr/bin/make -f
+
+DEB_DIVERT_EXTENSION = .hng
+DEB_TRANSFORM_FILES_add-unimulti += /etc/apt/sources.list.hng
+
+include /usr/share/cdbs/1/rules/debhelper.mk
+include /usr/share/cdbs/1/rules/config-package.mk

@@ -1,0 +1,3 @@
+#!/usr/bin/perl -0p
+s/^# (deb.*universe)/$1/m;
+s/^# (deb.*multiverse)/$1/m;
