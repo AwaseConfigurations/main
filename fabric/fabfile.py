@@ -3,18 +3,18 @@ import socket
 import paramiko
 from fabric.contrib.console import confirm
 
-#webserver='172.28.212.1'
-#fileserver='172.28.212.2'
-#ws1='172.28.212.3'
-#ws2='172.28.212.4'
-#ws3='172.28.212.5'
-
 env.user='ubuntu'
 env.password='ubuntu'
-env.hosts=['webserver', 'fileserver', 'ws1','ws2', 'ws3','ws4','ws5','ws6','ws7','ws8','ws9', 'ws10','ws11', 'ws12','ws13','ws14','ws15','ws16','ws17','ws18','ws19', 'ws20','ws21','ws23','ws24','ws25','ws26','ws27','ws28','ws29','ws30']
+#env.hosts=['webserver', 'fileserver', 'ws1','ws2', 'ws3','ws4','ws5','ws6','ws7','ws8','ws9', 'ws10','ws11', 'ws12','ws13','ws14','ws15','ws16','ws17','ws18','ws19', 'ws20','ws21','ws23','ws24','ws25','ws26','ws27','ws28','ws29','ws30']
+#env.roledefs={
+#'servers' : ['webserver','fileserver'],
+#'workstations' : ['ws1','ws2', 'ws3','ws4','ws5','ws6','ws7','ws8','ws9', 'ws10','ws11','ws12','ws13','ws14','ws15','ws16','ws17','ws18','ws19','ws20','ws21','ws23','ws24','ws25','ws26','ws27','ws28','ws29','ws30']
+#}
+
+env.hosts=['172.28.212.1','172.28.212.2','172.28.212.3','172.28.212.4','172.28.212.5','172.28.212.6','172.28.212.7','172.28.212.8','172.28.212.9','172.28.212.10','172.28.212.11','172.28.212.12','172.28.212.13','172.28.212.14','172.28.212.15','172.28.212.16','172.28.212.17','172.28.212.18','172.28.212.19','172.28.212.20','172.28.212.21','172.28.212.22','172.28.212.23','172.28.212.24','172.28.212.25','172.28.212.26','172.28.212.27','172.28.212.28','172.28.212.29','172.28.212.30']
 env.roledefs={
-'servers' : ['webserver','fileserver'],
-'workstations' : ['ws1','ws2', 'ws3','ws4','ws5','ws6','ws7','ws8','ws9', 'ws10','ws11','ws12','ws13','ws14','ws15','ws16','ws17','ws18','ws19','ws20','ws21','ws23','ws24','ws25','ws26','ws27','ws28','ws29','ws30']
+'servers : ['172.28.212.1','172.28.212.2'],
+'workstations : ['172.28.212.3','172.28.212.4','172.28.212.5','172.28.212.6','172.28.212.7','172.28.212.8','172.28.212.9','172.28.212.10','172.28.212.11','172.28.212.12','172.28.212.13','172.28.212.14','172.28.212.15','172.28.212.16','172.28.212.17','172.28.212.18','172.28.212.19','172.28.212.20','172.28.212.21','172.28.212.22','172.28.212.23','172.28.212.24','172.28.212.25','172.28.212.26','172.28.212.27','172.28.212.28','172.28.212.29','172.28.212.30']
 }
 
 def _is_host_up(host, port):
@@ -178,7 +178,8 @@ def static_ip():
 			sudo("/etc/init.d/networking restart")
 
 @task
-@hosts('webserver')
+#@hosts('webserver')
+@hosts('172.28.212.1')
 def install_apache():
 	sudo("apt-get update")
 	sudo("apt-get install apache2")
@@ -186,7 +187,8 @@ def install_apache():
 	sudo("/etc/init.d/apache2 restart")
 
 @task	
-@hosts('webserver')
+#@hosts('webserver')
+@hosts('172.28.212.1')
 def webserver_setup():
 	install_apache()
 	install(php5)
@@ -194,7 +196,8 @@ def webserver_setup():
 	sudo("/etc/init.d/apache2 restart")
 
 @task
-@hosts('webserver')
+#@hosts('webserver')
+@hosts('172.28.212.1')
 def reprepro_setup():
 	with settings(hide('warnings','running','stdout','stderr'),warn_only=True):
 		if run("reprepro -h").failed:
@@ -213,6 +216,7 @@ def reprepro_setup():
 			print("Reprepro is already installed")
 
 @task(alias='atr')
-@hosts('webserver')
+#@hosts('webserver')
+@hosts('172.28.212.1')
 def add_to_repo(path):
 	run("reprepro -Vb . includedeb awase %s" % path)
