@@ -58,17 +58,14 @@ def delete_user(del_user):
 	if _is_host_up(env.host, int(env.port)) is True:
 		sudo("deluser %s" % del_user)
 
-#def config(conff):
-#       Some function needed here that will first check if the config package
-#       has already been installed and maybe then instead of install just
-#       update to the latest version.Or maybe apt will take care of it  
-#       as we will use it to install config packages?
-
-#	if _is_host_up(env.host, int(env.port)) is True:
-#		local('')
-#		put('','')
-#		run("")
-#		sudo()
+@task
+@hosts('172.28.212.1')
+def config(conff):
+	if _is_host_up(env.host, int(env.port)) is True:
+		if conff=='php_enable':
+			install(php-enable-users)
+		elif conff=='apache_userdir':
+			install_apache():
 
 @task
 def status():
@@ -96,9 +93,6 @@ def install(package):
 				for i in range(1,3):
 					sudo("apt-get update")
                         		sudo("apt-get -y install %s" % package)
-			# result = sudo("apt-get -y install %s" % package, capture=True)
-			# if result.failed and not confirm("Install failed. Continue anyway?"):
-			# abort("Aborting!")
 
 @task
 def uninstall(package):
@@ -151,7 +145,7 @@ def release_upgrade():
 def add_reposource():
         if _is_host_up(env.host, int(env.port)) is True:
 		with cd("/etc/apt/sources.list.d/"):
-			sudo("echo deb http://172.28.212.1/~ubuntu/repository natty main >> repository.list")
+			sudo("echo deb http://172.28.212.1/~ubuntu/repository awase main >> repository.list")
 			# remove duplicates:
 			sudo("sort -u repository.list > repository.list.new")
 			sudo("cat repository.list.new > repository.list")
@@ -181,42 +175,63 @@ def static_ip():
 #@hosts('webserver')
 @hosts('172.28.212.1')
 def install_apache():
-	sudo("apt-get update")
-	sudo("apt-get install apache2")
-	sudo("a2enmod userdir")
-	sudo("/etc/init.d/apache2 restart")
+	if _is_host_up(env.host, int(env.port)) is True:
+			sudo("apt-get update")
+			sudo("apt-get install apache2")
+			sudo("a2enmod userdir")
+			sudo("/etc/init.d/apache2 restart")
 
 @task	
 #@hosts('webserver')
 @hosts('172.28.212.1')
 def webserver_setup():
-	install_apache()
-	install(php5)
-	#install(php-enable-users)
-	sudo("/etc/init.d/apache2 restart")
+	if _is_host_up(env.host, int(env.port)) is True:
+		with settings(warn_only=True):
+			install_apache()
+			install(php5)
+			reprepro_setup()
+			gitclone()
+			add_reposource()
+			add_to_repo('AwaseConfigurations/packages/php/php-enable-users/php-enable-users_0.1_all.deb')
+			config(php_enable)
+			sudo("/etc/init.d/apache2 restart")
 
 @task
 #@hosts('webserver')
 @hosts('172.28.212.1')
 def reprepro_setup():
-	with settings(hide('warnings','running','stdout','stderr'),warn_only=True):
-		if run("reprepro -h").failed:
-			with settings(show('warnings','running','stdout','stderr'),warn_only=True):
-				sudo("apt-get update")
-				sudo("apt-get install reprepro")
-				run("mkdir conf")
-				run("echo Origin: Awase > conf/distributions")
-				run("echo Label: Awase-All >> conf/distributions")
-				run("echo Suite: stable >> conf/distributions")
-				run("echo Version: 0.1 >> conf/distributions")
-				run("echo Architectures: i386 amd64 source >> conf/distributions")
-				run("echo Components: main non-free contrib >> conf/distributions")
-				run("echo Description: AwaseConfigurations >> conf/distributions")
-		else: 
-			print("Reprepro is already installed")
+	if _is_host_up(env.host, int(env.port)) is True:
+		with settings(hide('warnings','running','stdout','stderr'),warn_only=True):
+			if run("reprepro -h").failed:
+				with settings(show('warnings','running','stdout','stderr'),warn_only=True):
+					sudo("apt-get update")
+					sudo("apt-get install reprepro")
+					run("mkdir conf")
+					run("echo Origin: Awase > conf/distributions")
+					run("echo Label: Awase-All >> conf/distributions")
+					run("echo Suite: stable >> conf/distributions")
+					run("echo Version: 0.1 >> conf/distributions")
+					run("echo Architectures: i386 amd64 source >> conf/distributions")
+					run("echo Components: main non-free contrib >> conf/distributions")
+					run("echo Description: AwaseConfigurations >> conf/distributions")
+			else: 
+				print("Reprepro is already installed")
 
 @task(alias='atr')
 #@hosts('webserver')
 @hosts('172.28.212.1')
 def add_to_repo(path):
-	run("reprepro -Vb . includedeb awase %s" % path)
+	if _is_host_up(env.host, int(env.port)) is True:
+		with settings(warn_only=True):
+			if run("reprepro -Vb repository/ includedeb awase %s" % path).failed:
+				reprepro_setup()
+				clonegit()
+				path='AwaseConfigurations/packages/php/php-enable-users/php-enable-users_0.1_all.deb'
+				run("reprepro -Vb . includedeb awase %s" % path)'
+	
+@task
+@hosts('172.28.212.1')
+def clonegit():
+	install(git)
+	git clone https://github.com/AwaseConfigurations/main
+
