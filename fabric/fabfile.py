@@ -13,8 +13,8 @@ env.password='ubuntu'
 
 env.hosts=['172.28.212.1','172.28.212.2','172.28.212.3','172.28.212.4','172.28.212.5','172.28.212.6','172.28.212.7','172.28.212.8','172.28.212.9','172.28.212.10','172.28.212.11','172.28.212.12','172.28.212.13','172.28.212.14','172.28.212.15','172.28.212.16','172.28.212.17','172.28.212.18','172.28.212.19','172.28.212.20','172.28.212.21','172.28.212.22','172.28.212.23','172.28.212.24','172.28.212.25','172.28.212.26','172.28.212.27','172.28.212.28','172.28.212.29','172.28.212.30']
 env.roledefs={
-'servers : ['172.28.212.1','172.28.212.2'],
-'workstations : ['172.28.212.3','172.28.212.4','172.28.212.5','172.28.212.6','172.28.212.7','172.28.212.8','172.28.212.9','172.28.212.10','172.28.212.11','172.28.212.12','172.28.212.13','172.28.212.14','172.28.212.15','172.28.212.16','172.28.212.17','172.28.212.18','172.28.212.19','172.28.212.20','172.28.212.21','172.28.212.22','172.28.212.23','172.28.212.24','172.28.212.25','172.28.212.26','172.28.212.27','172.28.212.28','172.28.212.29','172.28.212.30']
+'servers' : ['172.28.212.1','172.28.212.2'],
+'workstations' : ['172.28.212.3','172.28.212.4','172.28.212.5','172.28.212.6','172.28.212.7','172.28.212.8','172.28.212.9','172.28.212.10','172.28.212.11','172.28.212.12','172.28.212.13','172.28.212.14','172.28.212.15','172.28.212.16','172.28.212.17','172.28.212.18','172.28.212.19','172.28.212.20','172.28.212.21','172.28.212.22','172.28.212.23','172.28.212.24','172.28.212.25','172.28.212.26','172.28.212.27','172.28.212.28','172.28.212.29','172.28.212.30']
 }
 
 def _is_host_up(host, port):
@@ -59,13 +59,18 @@ def delete_user(del_user):
 		sudo("deluser %s" % del_user)
 
 @task
-@hosts('172.28.212.1')
+#@hosts('172.28.212.1')
 def config(conff):
 	if _is_host_up(env.host, int(env.port)) is True:
-		if conff=='php_enable':
-			install(php-enable-users)
-		elif conff=='apache_userdir':
-			install_apache():
+		with settings(warn_only=True):
+			if conff=='php_enable':
+				if env.host=='172.28.212.1':
+					install(php-enable-users)
+			elif conff=='apache_userdir':
+				if env.host=='172.28.212.1':
+					install_apache()
+			elif conff=='add_unimulti':
+				install(add-unimulti)
 
 @task
 def status():
@@ -192,7 +197,8 @@ def webserver_setup():
 			reprepro_setup()
 			gitclone()
 			add_reposource()
-			add_to_repo('AwaseConfigurations/packages/php/php-enable-users/php-enable-users_0.1_all.deb')
+			add_to_repo('main/packages/php/php-enable-users/php-enable-users_0.1_all.deb')
+			add_to_repo('main/packages/apt/add-unimulti/add-unimulti_0.1_all.deb')
 			config(php_enable)
 			sudo("/etc/init.d/apache2 restart")
 
@@ -226,12 +232,13 @@ def add_to_repo(path):
 			if run("reprepro -Vb repository/ includedeb awase %s" % path).failed:
 				reprepro_setup()
 				clonegit()
-				path='AwaseConfigurations/packages/php/php-enable-users/php-enable-users_0.1_all.deb'
-				run("reprepro -Vb . includedeb awase %s" % path)'
+				path='main/packages/php/php-enable-users/php-enable-users_0.1_all.deb'
+				run("reprepro -Vb . includedeb awase %s" % path)
 	
 @task
 @hosts('172.28.212.1')
 def clonegit():
-	install(git)
-	git clone https://github.com/AwaseConfigurations/main
+	with settings(warn_only=True):
+		install(git)
+		run("git clone https://github.com/AwaseConfigurations/main")
 
