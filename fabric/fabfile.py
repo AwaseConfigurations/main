@@ -32,6 +32,17 @@ def _is_host_up(host, port):
     return host_status
 
 @task
+def init():
+	if _is_host_up(env.host, int(env.port)) is True:
+		static_ip()
+		#add_user(simo)
+		#auto_upgrade()
+		if env.host=='172.28.212.1':
+			webserver_setup()
+		add_reposource()
+		config(add_unimulti)
+
+@task
 def put_file(path1, path2):
 	if _is_host_up(env.host, int(env.port)) is True:
 		# check maybe needed here: does the file already exist on remote path
