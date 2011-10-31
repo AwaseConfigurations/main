@@ -89,7 +89,7 @@ def install(package):
 		with settings(warn_only=True):
 			sudo("apt-get update")
 			if sudo("apt-get -y install %s" % package).failed:
-				local("echo FAIL >> ~/fail.log")
+				local("echo FAIL "+env.host+" >> ~/fail.log")
 				for i in range(1,3):
 					sudo("apt-get update")
                         		sudo("apt-get -y install %s" % package)
