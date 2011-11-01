@@ -249,7 +249,16 @@ def add_to_repo(path):
 @task
 @hosts('172.28.212.1')
 def clonegit():
-	with settings(warn_only=True):
-		install(git)
-		run("git clone https://github.com/AwaseConfigurations/main")
+	if _is_host_up(env.host, int(env.port)) is True:
+		with settings(warn_only=True):
+			install(git)
+			run("git clone https://github.com/AwaseConfigurations/main")
 
+@task
+def sshkey():
+	if _is_host_up(env.host, int(env.port)) is True:
+		if local('ssh-copy-id '+env.user+'@'+env.host).failed:
+			local('ssh-keygen -N "" -q -f .ssh/id_rsa -t rsa')
+			local('ssh-copy-id '+env.user+'@'+env.host)
+		
+	
