@@ -232,7 +232,7 @@ def reprepro_setup():
 			if run("reprepro -h").failed:
 				with settings(show('warnings','running','stdout','stderr'),warn_only=True):
 					sudo("apt-get update")
-					sudo("apt-get install reprepro")
+					sudo("apt-get -y install reprepro")
 					run("mkdir conf")
 					run("echo Origin: Awase > conf/distributions")
 					run("echo Label: Awase-All >> conf/distributions")
