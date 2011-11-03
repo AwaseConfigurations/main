@@ -33,10 +33,12 @@ def _is_host_up(host, port):
 
 @task
 def init():
-	if _is_host_up(env.host, int(env.port)) is True:
-		static_ip()
+	if _is_host_up(env.host, int(env.port)):
+		#static_ip()
 		#add_user(simo)
 		#auto_upgrade()
+		sshkey()
+		change_passwd(ubuntu)
 		if env.host=='172.28.212.1':
 			webserver_setup()
 		add_reposource()
@@ -44,35 +46,35 @@ def init():
 
 @task
 def put_file(path1, path2):
-	if _is_host_up(env.host, int(env.port)) is True:
+	if _is_host_up(env.host, int(env.port)):
 		# check maybe needed here: does the file already exist on remote path
 		put(path1,path2)
 
 @task
 def get_file(path1, path2):
-	if _is_host_up(env.host, int(env.port)) is True:
+	if _is_host_up(env.host, int(env.port)):
 		get(path1,path2)
 
 @task
 def add_user(new_user):
-	if _is_host_up(env.host, int(env.port)) is True:
+	if _is_host_up(env.host, int(env.port)):
 		# check maybe needed here: does user already exist?
 		sudo("useradd -m %s" % new_user)
 
 @task
 def change_passwd(user):
-        if _is_host_up(env.host, int(env.port)) is True:
+        if _is_host_up(env.host, int(env.port)):
                 sudo("passwd %s" % new_user)
 
 @task
 def delete_user(del_user):
-	if _is_host_up(env.host, int(env.port)) is True:
+	if _is_host_up(env.host, int(env.port)):
 		sudo("deluser %s" % del_user)
 
 @task
 #@hosts('172.28.212.1')
 def config(conff):
-	if _is_host_up(env.host, int(env.port)) is True:
+	if _is_host_up(env.host, int(env.port)):
 		with settings(warn_only=True):
 			if conff=='php_enable':
 				if env.host=='172.28.212.1':
@@ -85,23 +87,23 @@ def config(conff):
 
 @task
 def status():
-	if _is_host_up(env.host, int(env.port)) is True:
+	if _is_host_up(env.host, int(env.port)):
 		run("uptime")
 		run("uname -a")
 
 @task
 def shut_down():
-	if _is_host_up(env.host, int(env.port)) is True:
+	if _is_host_up(env.host, int(env.port)):
 		sudo("shutdown -P 0")
 
 @task
 def reboot():
-	if _is_host_up(env.host, int(env.port)) is True:
+	if _is_host_up(env.host, int(env.port)):
 		sudo("shutdown -r 0")
 
 @task
 def install(package):
-	if _is_host_up(env.host, int(env.port)) is True:
+	if _is_host_up(env.host, int(env.port)):
 		with settings(warn_only=True):
 			sudo("apt-get update")
 			if sudo("apt-get -y install %s" % package).failed:
@@ -112,45 +114,45 @@ def install(package):
 
 @task
 def uninstall(package):
-	if _is_host_up(env.host, int(env.port)) is True:
+	if _is_host_up(env.host, int(env.port)):
 		sudo("apt-get remove %s" % package)
 
 @task
 def update():
-	if _is_host_up(env.host, int(env.port)) is True:
+	if _is_host_up(env.host, int(env.port)):
 		sudo("apt-get update")
 
 @task
 def upgrade():
-	if _is_host_up(env.host, int(env.port)) is True:
+	if _is_host_up(env.host, int(env.port)):
 		 with settings(warn_only=True):
                         sudo("apt-get update")
 			sudo("apt-get -y upgrade")
 
 @task
 def auto_install(package): # this will auto answer "yes" to all and keep old config files
-	if _is_host_up(env.host, int(env.port)) is True:
+	if _is_host_up(env.host, int(env.port)):
 		with settings(warn_only=True):
 			sudo("apt-get update")
 			sudo('apt-get install -o Dpkg::Options::="--force-confold" --force-yes -y %s' % package)
 
 @task
 def auto_upgrade():
-        if _is_host_up(env.host, int(env.port)) is True:
+        if _is_host_up(env.host, int(env.port)):
                 with settings(warn_only=True):
                         sudo("apt-get update")
                         sudo('apt-get upgrade -o Dpkg::Options::="--force-confold" --force-yes -y')
 
 @task
 def auto_dist_upgrade():
-        if _is_host_up(env.host, int(env.port)) is True:
+        if _is_host_up(env.host, int(env.port)):
                 with settings(warn_only=True):
                         sudo("apt-get update")
                         sudo('apt-get dist-upgrade -o Dpkg::Options::="--force-confold" --force-yes -y')
 
 @task
 def release_upgrade():
-	if _is_host_up(env.host, int(env.port)) is True:
+	if _is_host_up(env.host, int(env.port)):
 		with settings(warn_only=True):
 			sudo("apt-get update")
 			sudo("apt-get upgrade")
@@ -159,7 +161,7 @@ def release_upgrade():
 
 @task
 def add_reposource():
-        if _is_host_up(env.host, int(env.port)) is True:
+        if _is_host_up(env.host, int(env.port)):
 		with cd("/etc/apt/sources.list.d/"):
 			sudo("echo deb http://172.28.212.1/~ubuntu/repository awase main >> repository.list")
 			# remove duplicates:
@@ -169,7 +171,7 @@ def add_reposource():
 		
 @task
 def static_ip():
-	if _is_host_up(env.host, int(env.port)) is True:
+	if _is_host_up(env.host, int(env.port)):
 		run("echo auto lo > interfaces.static")
 		run("echo iface lo inet loopback >> interfaces.static")
 		run("echo   >> interfaces.static")
@@ -191,7 +193,7 @@ def static_ip():
 #@hosts('webserver')
 @hosts('172.28.212.1')
 def install_apache():
-	if _is_host_up(env.host, int(env.port)) is True:
+	if _is_host_up(env.host, int(env.port)):
 			sudo("apt-get update")
 			sudo("apt-get install apache2")
 			sudo("a2enmod userdir")
@@ -201,7 +203,7 @@ def install_apache():
 #@hosts('webserver')
 @hosts('172.28.212.1')
 def webserver_setup():
-	if _is_host_up(env.host, int(env.port)) is True:
+	if _is_host_up(env.host, int(env.port)):
 		with settings(warn_only=True):
 			install_apache()
 			install(php5)
@@ -217,7 +219,7 @@ def webserver_setup():
 #@hosts('webserver')
 @hosts('172.28.212.1')
 def reprepro_setup():
-	if _is_host_up(env.host, int(env.port)) is True:
+	if _is_host_up(env.host, int(env.port)):
 		with settings(hide('warnings','running','stdout','stderr'),warn_only=True):
 			if run("reprepro -h").failed:
 				with settings(show('warnings','running','stdout','stderr'),warn_only=True):
@@ -238,7 +240,7 @@ def reprepro_setup():
 #@hosts('webserver')
 @hosts('172.28.212.1')
 def add_to_repo(path):
-	if _is_host_up(env.host, int(env.port)) is True:
+	if _is_host_up(env.host, int(env.port)):
 		with settings(warn_only=True):
 			if run("reprepro -Vb repository/ includedeb awase %s" % path).failed:
 				reprepro_setup()
@@ -249,14 +251,14 @@ def add_to_repo(path):
 @task
 @hosts('172.28.212.1')
 def clonegit():
-	if _is_host_up(env.host, int(env.port)) is True:
+	if _is_host_up(env.host, int(env.port)):
 		with settings(warn_only=True):
 			install(git)
 			run("git clone https://github.com/AwaseConfigurations/main")
 
 @task
 def sshkey():
-	if _is_host_up(env.host, int(env.port)) is True:
+	if _is_host_up(env.host, int(env.port)):
 		if local('ssh-copy-id '+env.user+'@'+env.host).failed:
 			local('ssh-keygen -N "" -q -f .ssh/id_rsa -t rsa')
 			local('ssh-copy-id '+env.user+'@'+env.host)
