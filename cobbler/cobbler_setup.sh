@@ -21,6 +21,7 @@ wget http://releases.ubuntu.com/natty/ubuntu-11.04-alternate-i386.iso
 
 #enable universe repo and install packages
 sudo software-properties-gtk -e universe
+sudo apt-get update
 sudo apt-get install dhcp3-server cobbler cobbler-common wakeonlan
 
 #start cobbler and build its configuration
