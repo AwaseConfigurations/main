@@ -22,7 +22,7 @@ wget http://releases.ubuntu.com/natty/ubuntu-11.04-alternate-i386.iso
 #enable universe repo and install packages
 sudo software-properties-gtk -e universe
 sudo apt-get update
-sudo apt-get install dhcp3-server cobbler cobbler-common wakeonlan
+sudo apt-get install dhcp3-server cobbler cobbler-common wakeonlan rcconf
 
 #start cobbler and build its configuration
 sudo service cobbler start
@@ -64,3 +64,6 @@ sudo cobbler sync
 #run the script to wake all up
 chmod 700 wakeup.sh
 ./wakeup.sh
+
+#make sure dhcp-server is off next time this machine is booted (our lab's requirements)
+sudo rcconf --off isc-dhcp-server
