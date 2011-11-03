@@ -34,12 +34,16 @@ def _is_host_up(host, port):
 @task
 def init():
 	if _is_host_up(env.host, int(env.port)):
-		with settings(warn_only=True):
-			#static_ip()
-			#add_user(simo)
-			#auto_upgrade()
+                with settings(warn_only=True):
 			sshkey()
 			change_passwd('ubuntu')
+
+@task
+def main():
+	if _is_host_up(env.host, int(env.port)):
+		with settings(warn_only=True):
+			#add_user(simo)
+			#auto_upgrade()
 			if env.host=='host1.local':
 				webserver_setup()
 			add_reposource()
@@ -276,3 +280,4 @@ def bg():
 				local("wget http://myy.haaga-helia.fi/~a0900094/awasebg.jpg")
 				put("awasebg.jpg","/tmp/")
 			sudo("cp /tmp/awasebg.jpg /usr/share/images/dektop-base/spacefun-wallpaper.svg")
+
