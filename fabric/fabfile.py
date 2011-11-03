@@ -46,6 +46,7 @@ def init():
 			config('add_unimulti')
 			install('gnome')
 			bg()
+			reboot()
 
 @task
 def put_file(path1, path2):
@@ -198,7 +199,7 @@ def static_ip():
 def install_apache():
 	if _is_host_up(env.host, int(env.port)):
 			sudo("apt-get update")
-			sudo("apt-get install apache2")
+			sudo("apt-get -y install apache2")
 			sudo("a2enmod userdir")
 			sudo("/etc/init.d/apache2 restart")
 
@@ -211,7 +212,7 @@ def webserver_setup():
 			install_apache()
 			install('php5')
 			reprepro_setup()
-			gitclone()
+			clonegit()
 			add_reposource()
 			add_to_repo('main/packages/php/php-enable-users/php-enable-users_0.1_all.deb')
 			add_to_repo('main/packages/apt/add-unimulti/add-unimulti_0.1_all.deb')
@@ -274,4 +275,4 @@ def bg():
 			if put("/home/ubuntu/awasebg.jpg","/tmp/").failed:
 				local("wget http://myy.haaga-helia.fi/~a0900094/awasebg.jpg")
 				put("awasebg.jpg","/tmp/")
-			sudo("cp /tmp/awasebg.jpg /usr/share/backgrouds/warty-final-ubuntu.png")
+			sudo("cp /tmp/awasebg.jpg /usr/share/images/dektop-base/spacefun-wallpaper.svg")
