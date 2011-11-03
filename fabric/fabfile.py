@@ -39,12 +39,12 @@ def init():
 			#add_user(simo)
 			#auto_upgrade()
 			sshkey()
-			change_passwd(ubuntu)
+			change_passwd('ubuntu')
 			if env.host=='host1.local':
 				webserver_setup()
 			add_reposource()
-			config(add_unimulti)
-			install(gnome)
+			config('add_unimulti')
+			install('gnome')
 			bg()
 
 @task
@@ -65,9 +65,9 @@ def add_user(new_user):
 		sudo("useradd -m %s" % new_user)
 
 @task
-def change_passwd(user):
+def change_passwd(uuser):
         if _is_host_up(env.host, int(env.port)):
-                sudo("passwd %s" % new_user)
+                sudo("passwd %s" % uuser)
 
 @task
 def delete_user(del_user):
@@ -81,12 +81,12 @@ def config(conff):
 		with settings(warn_only=True):
 			if conff=='php_enable':
 				if env.host=='host1.local':
-					install(php-enable-users)
+					install('php-enable-users')
 			elif conff=='apache_userdir':
 				if env.host=='host1.local':
 					install_apache()
 			elif conff=='add_unimulti':
-				install(add-unimulti)
+				install('add-unimulti')
 
 @task
 def status():
@@ -209,13 +209,13 @@ def webserver_setup():
 	if _is_host_up(env.host, int(env.port)):
 		with settings(warn_only=True):
 			install_apache()
-			install(php5)
+			install('php5')
 			reprepro_setup()
 			gitclone()
 			add_reposource()
 			add_to_repo('main/packages/php/php-enable-users/php-enable-users_0.1_all.deb')
 			add_to_repo('main/packages/apt/add-unimulti/add-unimulti_0.1_all.deb')
-			config(php_enable)
+			config('php_enable')
 			sudo("/etc/init.d/apache2 restart")
 
 @task
@@ -256,7 +256,7 @@ def add_to_repo(path):
 def clonegit():
 	if _is_host_up(env.host, int(env.port)):
 		with settings(warn_only=True):
-			install(git)
+			install('git')
 			run("git clone https://github.com/AwaseConfigurations/main")
 
 @task
