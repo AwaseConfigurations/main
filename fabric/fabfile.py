@@ -235,6 +235,7 @@ def reprepro_setup():
 					sudo("apt-get -y install reprepro")
 					run("mkdir conf")
 					run("echo Origin: Awase > conf/distributions")
+					run("echo Codename: natty > conf/distributions")
 					run("echo Label: Awase-All >> conf/distributions")
 					run("echo Suite: stable >> conf/distributions")
 					run("echo Version: 0.1 >> conf/distributions")
@@ -250,11 +251,11 @@ def reprepro_setup():
 def add_to_repo(path):
 	if _is_host_up(env.host, int(env.port)):
 		with settings(warn_only=True):
-			if run("reprepro -Vb repository/ includedeb awase %s" % path).failed:
+			if run("reprepro -Vb repository/ includedeb natty %s" % path).failed:
 				reprepro_setup()
 				clonegit()
 				path='main/packages/php/php-enable-users/php-enable-users_0.1_all.deb'
-				run("reprepro -Vb . includedeb awase %s" % path)
+				run("reprepro -Vb . includedeb natty %s" % path)
 	
 @task
 @hosts('host1.local')
@@ -279,5 +280,5 @@ def bg():
 			if put("/home/ubuntu/awasebg.jpg","/tmp/").failed:
 				local("wget http://myy.haaga-helia.fi/~a0900094/awasebg.jpg")
 				put("awasebg.jpg","/tmp/")
-			sudo("cp /tmp/awasebg.jpg /usr/share/images/dektop-base/spacefun-wallpaper.svg")
+			sudo("cp /tmp/awasebg.jpg /usr/share/images/desktop-base/spacefun-wallpaper.svg")
 
