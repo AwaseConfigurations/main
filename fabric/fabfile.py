@@ -5,17 +5,17 @@ from fabric.contrib.console import confirm
 
 env.user='ubuntu'
 env.password='ubuntu'
-#env.hosts=['webserver', 'fileserver', 'ws1','ws2', 'ws3','ws4','ws5','ws6','ws7','ws8','ws9', 'ws10','ws11', 'ws12','ws13','ws14','ws15','ws16','ws17','ws18','ws19', 'ws20','ws21','ws23','ws24','ws25','ws26','ws27','ws28','ws29','ws30']
-#env.roledefs={
-#'servers' : ['webserver','fileserver'],
-#'workstations' : ['ws1','ws2', 'ws3','ws4','ws5','ws6','ws7','ws8','ws9', 'ws10','ws11','ws12','ws13','ws14','ws15','ws16','ws17','ws18','ws19','ws20','ws21','ws23','ws24','ws25','ws26','ws27','ws28','ws29','ws30']
-#}
-
-env.hosts=['172.28.212.1','172.28.212.2','172.28.212.3','172.28.212.4','172.28.212.5','172.28.212.6','172.28.212.7','172.28.212.8','172.28.212.9','172.28.212.10','172.28.212.11','172.28.212.12','172.28.212.13','172.28.212.14','172.28.212.15','172.28.212.16','172.28.212.17','172.28.212.18','172.28.212.19','172.28.212.20','172.28.212.21','172.28.212.22','172.28.212.23','172.28.212.24','172.28.212.25','172.28.212.26','172.28.212.27','172.28.212.28','172.28.212.29','172.28.212.30']
+env.hosts=['host1.local','host2.local', 'host3.local','host4.local','host5.local','host6.local','host7.local','host8.local','host9.local', 'host10.local','host11.local', 'host12.local','host13.local','host14.local','host15.local','host16.local','host17.local','host18.local','host19.local', 'host20.local','host21.local','host23.local','host24.local','host25.local','host26.local','host27.local','host28.local','host29.local','host30.local']
 env.roledefs={
-'servers' : ['172.28.212.1','172.28.212.2'],
-'workstations' : ['172.28.212.3','172.28.212.4','172.28.212.5','172.28.212.6','172.28.212.7','172.28.212.8','172.28.212.9','172.28.212.10','172.28.212.11','172.28.212.12','172.28.212.13','172.28.212.14','172.28.212.15','172.28.212.16','172.28.212.17','172.28.212.18','172.28.212.19','172.28.212.20','172.28.212.21','172.28.212.22','172.28.212.23','172.28.212.24','172.28.212.25','172.28.212.26','172.28.212.27','172.28.212.28','172.28.212.29','172.28.212.30']
+'servers' : ['host1.local','host2.local'],
+'workstations' : ['host3.local','host4.local','host5.local','host6.local','host7.local','host8.local','host9.local', 'host10.local','host11.local', 'host12.local','host13.local','host14.local','host15.local','host16.local','host17.local','host18.local','host19.local', 'host20.local','host21.local','host23.local','host24.local','host25.local','host26.local','host27.local','host28.local','host29.local','host30.local']
 }
+
+#env.hosts=['172.28.212.1','172.28.212.2','172.28.212.3','172.28.212.4','172.28.212.5','172.28.212.6','172.28.212.7','172.28.212.8','172.28.212.9','172.28.212.10','172.28.212.11','172.28.212.12','172.28.212.13','172.28.212.14','172.28.212.15','172.28.212.16','172.28.212.17','172.28.212.18','172.28.212.19','172.28.212.20','172.28.212.21','172.28.212.22','172.28.212.23','172.28.212.24','172.28.212.25','172.28.212.26','172.28.212.27','172.28.212.28','172.28.212.29','172.28.212.30']
+#env.roledefs={
+#'servers' : ['172.28.212.1','172.28.212.2'],
+#'workstations' : ['172.28.212.3','172.28.212.4','172.28.212.5','172.28.212.6','172.28.212.7','172.28.212.8','172.28.212.9','172.28.212.10','172.28.212.11','172.28.212.12','172.28.212.13','172.28.212.14','172.28.212.15','172.28.212.16','172.28.212.17','172.28.212.18','172.28.212.19','172.28.212.20','172.28.212.21','172.28.212.22','172.28.212.23','172.28.212.24','172.28.212.25','172.28.212.26','172.28.212.27','172.28.212.28','172.28.212.29','172.28.212.30']
+#}
 
 def _is_host_up(host, port):
     original_timeout = socket.getdefaulttimeout()
@@ -40,7 +40,7 @@ def init():
 			#auto_upgrade()
 			sshkey()
 			change_passwd(ubuntu)
-			if env.host=='172.28.212.1':
+			if env.host=='host1.local':
 				webserver_setup()
 			add_reposource()
 			config(add_unimulti)
@@ -80,10 +80,10 @@ def config(conff):
 	if _is_host_up(env.host, int(env.port)):
 		with settings(warn_only=True):
 			if conff=='php_enable':
-				if env.host=='172.28.212.1':
+				if env.host=='host1.local':
 					install(php-enable-users)
 			elif conff=='apache_userdir':
-				if env.host=='172.28.212.1':
+				if env.host=='host1.local':
 					install_apache()
 			elif conff=='add_unimulti':
 				install(add-unimulti)
@@ -166,7 +166,7 @@ def release_upgrade():
 def add_reposource():
         if _is_host_up(env.host, int(env.port)):
 		with cd("/etc/apt/sources.list.d/"):
-			sudo("echo deb http://172.28.212.1/~ubuntu/repository awase main >> repository.list")
+			sudo("echo deb http://host1.local/~ubuntu/repository awase main >> repository.list")
 			# remove duplicates:
 			sudo("sort -u repository.list > repository.list.new")
 			sudo("cat repository.list.new > repository.list")
@@ -193,8 +193,8 @@ def static_ip():
 			sudo("/etc/init.d/networking restart")
 
 @task
-#@hosts('webserver')
-@hosts('172.28.212.1')
+@hosts('host1.local')
+#@hosts('172.28.212.1')
 def install_apache():
 	if _is_host_up(env.host, int(env.port)):
 			sudo("apt-get update")
@@ -203,8 +203,8 @@ def install_apache():
 			sudo("/etc/init.d/apache2 restart")
 
 @task	
-#@hosts('webserver')
-@hosts('172.28.212.1')
+@hosts('host1.local')
+#@hosts('172.28.212.1')
 def webserver_setup():
 	if _is_host_up(env.host, int(env.port)):
 		with settings(warn_only=True):
@@ -219,8 +219,8 @@ def webserver_setup():
 			sudo("/etc/init.d/apache2 restart")
 
 @task
-#@hosts('webserver')
-@hosts('172.28.212.1')
+@hosts('host1.local')
+#@hosts('172.28.212.1')
 def reprepro_setup():
 	if _is_host_up(env.host, int(env.port)):
 		with settings(hide('warnings','running','stdout','stderr'),warn_only=True):
@@ -240,8 +240,8 @@ def reprepro_setup():
 				print("Reprepro is already installed")
 
 @task(alias='atr')
-#@hosts('webserver')
-@hosts('172.28.212.1')
+@hosts('host1.local')
+#@hosts('172.28.212.1')
 def add_to_repo(path):
 	if _is_host_up(env.host, int(env.port)):
 		with settings(warn_only=True):
@@ -252,7 +252,7 @@ def add_to_repo(path):
 				run("reprepro -Vb . includedeb awase %s" % path)
 	
 @task
-@hosts('172.28.212.1')
+@hosts('host1.local')
 def clonegit():
 	if _is_host_up(env.host, int(env.port)):
 		with settings(warn_only=True):
@@ -270,7 +270,8 @@ def sshkey():
 @task
 def bg():
 	if _is_host_up(env.host, int(env.port)):
-		if put("awasebg.jpg","/tmp/").failed:
-			local("wget http://myy.haaga-helia.fi/~a0900094/awasebg.jpg")
-			put("awasebg.jpg","/tmp/")
-		sudo("cp /tmp/awasebg.jpg /usr/share/backgrouds/warty-final-ubuntu.png")
+		with settings(warn_only=True):
+			if put("/home/ubuntu/awasebg.jpg","/tmp/").failed:
+				local("wget http://myy.haaga-helia.fi/~a0900094/awasebg.jpg")
+				put("awasebg.jpg","/tmp/")
+			sudo("cp /tmp/awasebg.jpg /usr/share/backgrouds/warty-final-ubuntu.png")
