@@ -34,15 +34,18 @@ def _is_host_up(host, port):
 @task
 def init():
 	if _is_host_up(env.host, int(env.port)):
-		#static_ip()
-		#add_user(simo)
-		#auto_upgrade()
-		sshkey()
-		change_passwd(ubuntu)
-		if env.host=='172.28.212.1':
-			webserver_setup()
-		add_reposource()
-		config(add_unimulti)
+		with settings(warn_only=True):
+			#static_ip()
+			#add_user(simo)
+			#auto_upgrade()
+			sshkey()
+			change_passwd(ubuntu)
+			if env.host=='172.28.212.1':
+				webserver_setup()
+			add_reposource()
+			config(add_unimulti)
+			install(gnome)
+			bg()
 
 @task
 def put_file(path1, path2):
@@ -264,3 +267,10 @@ def sshkey():
 			local('ssh-copy-id '+env.user+'@'+env.host)
 		
 	
+@task
+def bg():
+	if _is_host_up(env.host, int(env.port)):
+		if put("awasebg.jpg","/tmp/").failed
+			local("wget http://myy.haaga-helia.fi/~a0900094/awasebg.jpg")
+			put("awasebg.jpg","/tmp/")
+		sudo("cp /tmp/awasebg.jpg /usr/share/backgrouds/warty-final-ubuntu.png")
