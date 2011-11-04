@@ -287,5 +287,5 @@ def bg():
 			if put("awasebg.jpg","/tmp/").failed:
 				local("wget http://myy.haaga-helia.fi/~a0900094/awasebg.jpg")
 				put("awasebg.jpg","/tmp/")
-			sudo("cp /tmp/awasebg.jpg /usr/share/images/desktop-base/spacefun-wallpaper.svg")
+			sudo("cp /tmp/awasebg.jpg /usr/share/backgrounds/warty-final-ubuntu.png")
 
