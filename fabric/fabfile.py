@@ -219,8 +219,7 @@ def webserver_setup():
 			reprepro_setup()
 			clonegit()
 			add_reposource()
-			add_to_repo('main/packages/php/php-enable-users/php-enable-users_0.1_all.deb')
-			add_to_repo('main/packages/apt/add-unimulti/add-unimulti_0.1_all.deb')
+			add_to_repo()
 			config('php_enable')
 			sudo("/etc/init.d/apache2 restart")
 
@@ -249,17 +248,21 @@ def reprepro_setup():
 @task(alias='atr')
 @hosts('host1.local')
 #@hosts('172.28.212.1')
-def add_to_repo(path):
+def add_to_repo():
 	if _is_host_up(env.host, int(env.port)):
 		with settings(warn_only=True):
 			with cd('~/public_html/'):
 				run("cp ~/main/packages/php/php-enable-users/php-enable-users_0.1_all.deb")
-				if run("reprepro -Vb includedeb natty php-enable-users_0.1_all.deb" % path).failed:
+				run("cp ~/main/packages/apt/add-unimulti/add-unimulti_0.1_all.deb")
+				run("reprepro -Vb includedeb natty add-unimulti_0.1_all.deb")			
+				if run("reprepro -Vb includedeb natty php-enable-users_0.1_all.deb").failed:
 					reprepro_setup()
 					clonegit()
-					path='main/packages/php/php-enable-users/php-enable-users_0.1_all.deb'
-					run("reprepro -Vb . includedeb natty %s" % path)
-	
+					run("reprepro -Vb includedeb natty php-enable-users_0.1_all.deb")					
+					run("reprepro -Vb includedeb natty add-unimulti_0.1_all.deb")
+					run("cp ~/main/packages/php/php-enable-users/php-enable-users_0.1_all.deb")
+					run("cp ~/main/packages/apt/add-unimulti/add-unimulti_0.1_all.deb")
+
 @task
 @hosts('host1.local')
 def clonegit():
