@@ -87,12 +87,12 @@ def config(conff):
 		with settings(warn_only=True):
 			if conff=='php_enable':
 				if env.host=='host1.local':
-					install('php-enable-users')
+					auto_install('php-enable-users')
 			elif conff=='apache_userdir':
 				if env.host=='host1.local':
 					install_apache()
 			elif conff=='add_unimulti':
-				install('add-unimulti')
+				auto_install('add-unimulti')
 
 @task
 def status():
