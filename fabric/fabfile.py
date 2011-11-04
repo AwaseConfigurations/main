@@ -36,7 +36,7 @@ def init():
 	if _is_host_up(env.host, int(env.port)):
                 with settings(warn_only=True):
 			sshkey()
-			change_passwd('ubuntu')
+			#change_passwd('ubuntu','')
 
 @task
 def main():
