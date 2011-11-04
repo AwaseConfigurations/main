@@ -252,16 +252,16 @@ def add_to_repo():
 	if _is_host_up(env.host, int(env.port)):
 		with settings(warn_only=True):
 			with cd('~/public_html/'):
-				run("cp ~/main/packages/php/php-enable-users/php-enable-users_0.1_all.deb")
-				run("cp ~/main/packages/apt/add-unimulti/add-unimulti_0.1_all.deb")
+				run("cp ~/main/packages/php/php-enable-users/php-enable-users_0.1_all.deb ~/public_html/")
+				run("cp ~/main/packages/apt/add-unimulti/add-unimulti_0.1_all.deb ~/public_html/")
 				run("reprepro -Vb includedeb natty add-unimulti_0.1_all.deb")			
 				if run("reprepro -Vb includedeb natty php-enable-users_0.1_all.deb").failed:
 					reprepro_setup()
 					clonegit()
+					run("cp ~/main/packages/php/php-enable-users/php-enable-users_0.1_all.deb ~/public_html/")
+					run("cp ~/main/packages/apt/add-unimulti/add-unimulti_0.1_all.deb ~/public_html/")
 					run("reprepro -Vb includedeb natty php-enable-users_0.1_all.deb")					
 					run("reprepro -Vb includedeb natty add-unimulti_0.1_all.deb")
-					run("cp ~/main/packages/php/php-enable-users/php-enable-users_0.1_all.deb")
-					run("cp ~/main/packages/apt/add-unimulti/add-unimulti_0.1_all.deb")
 
 @task
 @hosts('host1.local')
@@ -269,7 +269,8 @@ def clonegit():
 	if _is_host_up(env.host, int(env.port)):
 		with settings(warn_only=True):
 			install('git')
-			run("git clone https://github.com/AwaseConfigurations/main")
+			with cd('~/'):
+				run("git clone https://github.com/AwaseConfigurations/main")
 
 @task
 def sshkey():
