@@ -48,8 +48,9 @@ def main():
 				webserver_setup()
 			add_reposource()
 			config('add_unimulti')
-			install('gnome')
-			bg()
+			if env.host!='host1.local':
+				install('ubuntu-desktop')
+				bg()
 			reboot()
 
 @task
@@ -171,7 +172,7 @@ def release_upgrade():
 def add_reposource():
         if _is_host_up(env.host, int(env.port)):
 		with cd("/etc/apt/sources.list.d/"):
-			sudo("echo deb http://host1.local/~ubuntu/repository awase main >> repository.list")
+			sudo("echo deb http://host1.local/~ubuntu/ natty main >> repository.list")
 			# remove duplicates:
 			sudo("sort -u repository.list > repository.list.new")
 			sudo("cat repository.list.new > repository.list")
@@ -251,11 +252,13 @@ def reprepro_setup():
 def add_to_repo(path):
 	if _is_host_up(env.host, int(env.port)):
 		with settings(warn_only=True):
-			if run("reprepro -Vb repository/ includedeb natty %s" % path).failed:
-				reprepro_setup()
-				clonegit()
-				path='main/packages/php/php-enable-users/php-enable-users_0.1_all.deb'
-				run("reprepro -Vb . includedeb natty %s" % path)
+			with cd('~/public_html/'):
+				run("cp ~/main/packages/php/php-enable-users/php-enable-users_0.1_all.deb")
+				if run("reprepro -Vb includedeb natty php-enable-users_0.1_all.deb" % path).failed:
+					reprepro_setup()
+					clonegit()
+					path='main/packages/php/php-enable-users/php-enable-users_0.1_all.deb'
+					run("reprepro -Vb . includedeb natty %s" % path)
 	
 @task
 @hosts('host1.local')
