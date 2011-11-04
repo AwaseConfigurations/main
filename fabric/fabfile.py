@@ -71,9 +71,10 @@ def add_user(new_user):
 		sudo("useradd -m %s" % new_user)
 
 @task
-def change_passwd(uuser):
+def change_passwd(user,passwod):
         if _is_host_up(env.host, int(env.port)):
-                sudo("passwd %s" % uuser)
+                #sudo("passwd %s" % uuser)
+		sudo("echo -e '%s\n%s' | passwd %s" % (passwod,passwod,user))
 
 @task
 def delete_user(del_user):
