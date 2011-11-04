@@ -51,7 +51,7 @@ def main():
 			if env.host!='host1.local':
 				install('ubuntu-desktop')
 				bg()
-			reboot()
+				reboot()
 
 @task
 def put_file(path1, path2):
