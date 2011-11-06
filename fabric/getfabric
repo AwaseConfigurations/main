@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# run as ./getfabric
 # this script will download fabric, enable universe sources, update source list, 
 # install packages that are needed for fabric, install fabric, download the
 # project fabfile.
