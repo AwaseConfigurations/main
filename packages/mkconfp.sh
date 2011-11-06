@@ -1,6 +1,8 @@
 #!/bin/bash
 
 # This is a script for building simple configuration packages.
+# It uses DEB_TRANSFORM_FILES and DEB_DIVERT_EXTESION from config-package-dev 
+# to replace config file with a symlink to a modified version of the file.
 # Copyright 2011 Henri Siponen
 # License: GNU General Public License, version 2 or later
 # More help can be found here: http://awaseconfigurations.wordpress.com/2011/10/02/config-package-dev-building-configuration-packages/
