@@ -39,7 +39,7 @@ def main():
 	if not _is_host_up(env.host, int(env.port)):
                 return
 	#add_user(simo)
-	#auto_upgrade()
+	auto_upgrade()
 	if env.host=='host1.local':
 		webserver_setup()
 	add_reposource()
@@ -132,7 +132,7 @@ def install(package):
 		return
 	sudo("apt-get update")
 	if sudo("apt-get -y install %s" % package).failed:
-		local("echo FAIL "+env.host+" >> ~/fail.log")
+		local("echo FAIL "+env.host+": failed to install %s $(date) >> ~/fail.log" % package)
 		for i in range(1,3):
 			sudo("apt-get update")
                     	sudo("apt-get -y install %s" % package)
