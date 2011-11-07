@@ -229,7 +229,7 @@ def webserver_setup():
 
 @task
 @hosts('host1.local')
-def reprepro_setup():
+def reprepro_setup_old():
 	if not _is_host_up(env.host, int(env.port)):
 		return
 	with settings(hide('warnings','running','stdout','stderr'),warn_only=True):
@@ -248,6 +248,20 @@ def reprepro_setup():
 				run("echo Description: AwaseConfigurations >> public_html/conf/distributions")
 		else: 
 			print("Reprepro is already installed")
+
+@task(alias='reprepro_setup')
+@hosts('host1.local')
+@with_settings(warn_only=True)
+def reprepro_setup():
+	if not _is_host_up(env.host, int(env.port)):
+                return
+        sudo("apt-get update")
+        sudo("apt-get -y install reprepro")	
+	run("wget https://raw.github.com/AwaseConfigurations/main/master/scripts/reprepro_setup.sh")
+	run("chmod +x reprepro_setup.sh")
+	run("./reprepro_setup.sh")
+	run("rm reprepro_setup.sh")
+	
 
 @task(alias='add_to_repo')
 @hosts('host1.local')
