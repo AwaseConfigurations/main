@@ -306,6 +306,13 @@ def sshkey():
 def bg():
 	if not _is_host_up(env.host, int(env.port)):
 		return
+	run("wget http://myy.haaga-helia.fi/~a0900094/awasebg.jpg")
+	sudo("mv -b awasebg.jpg /usr/share/backgrounds/warty-final-ubuntu.png")
+
+@with_settings(warn_only=True)
+def bg_old():
+	if not _is_host_up(env.host, int(env.port)):
+                return
 	if put("awasebg.jpg","/tmp/").failed:
 		local("wget http://myy.haaga-helia.fi/~a0900094/awasebg.jpg")
 		put("awasebg.jpg","/tmp/")
