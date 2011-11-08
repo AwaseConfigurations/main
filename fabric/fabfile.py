@@ -5,10 +5,10 @@ from fabric.contrib.console import confirm
 
 env.user='ubuntu'
 env.password='ubuntu'
-env.hosts=['host1.local','host2.local', 'host3.local','host4.local','host5.local','host6.local','host7.local','host8.local','host9.local', 'host10.local','host11.local', 'host12.local','host13.local','host14.local','host15.local','host16.local','host17.local','host18.local','host19.local', 'host20.local','host21.local','host23.local','host24.local','host25.local','host26.local','host27.local','host28.local','host29.local','host30.local']
+env.hosts=['host1.local','host2.local', 'host3.local','host4.local','host5.local','host6.local','host7.local','host8.local','host9.local', 'host10.local','host11.local', 'host12.local','host13.local','host14.local','host15.local','host16.local','host17.local','host18.local','host19.local', 'host20.local','host21.local','host22.local','host23.local','host24.local','host25.local','host26.local','host27.local','host28.local','host29.local','host30.local']
 env.roledefs={
 'servers' : ['host1.local','host2.local'],
-'workstations' : ['host3.local','host4.local','host5.local','host6.local','host7.local','host8.local','host9.local', 'host10.local','host11.local', 'host12.local','host13.local','host14.local','host15.local','host16.local','host17.local','host18.local','host19.local', 'host20.local','host21.local','host23.local','host24.local','host25.local','host26.local','host27.local','host28.local','host29.local','host30.local']
+'workstations' : ['host3.local','host4.local','host5.local','host6.local','host7.local','host8.local','host9.local', 'host10.local','host11.local', 'host12.local','host13.local','host14.local','host15.local','host16.local','host17.local','host18.local','host19.local', 'host20.local','host21.local','host22.local','host23.local','host24.local','host25.local','host26.local','host27.local','host28.local','host29.local','host30.local']
 }
 
 def _is_host_up(host):
@@ -38,7 +38,7 @@ def init():
 def main():
 	if not _is_host_up(env.host):
                 return
-	#add_user(simo)
+	add_user('simo')
 	auto_upgrade()
 	if env.host=='host1.local':
 		webserver_setup()
@@ -229,28 +229,6 @@ def webserver_setup():
 	add_to_repo()
 	config('php_enable')
 	sudo("/etc/init.d/apache2 restart")
-
-@task
-@hosts('host1.local')
-def reprepro_setup_old():
-	if not _is_host_up(env.host):
-		return
-	with settings(hide('warnings','running','stdout','stderr'),warn_only=True):
-		if run("reprepro -h").failed:
-			with settings(show('warnings','running','stdout','stderr'),warn_only=True):
-				sudo("apt-get update")
-				sudo("apt-get -y install reprepro")
-				run("mkdir -p public_html/conf")
-				run("echo Origin: Awase > public_html/conf/distributions")
-				run("echo Codename: natty > public_html/conf/distributions")
-				run("echo Label: Awase-All >> public_html/conf/distributions")
-				run("echo Suite: stable >> public_html/conf/distributions")
-				run("echo Version: 0.1 >> public_html/conf/distributions")
-				run("echo Architectures: i386 amd64 source >> public_html/conf/distributions")
-				run("echo Components: main non-free contrib >> public_html/conf/distributions")
-				run("echo Description: AwaseConfigurations >> public_html/conf/distributions")
-		else: 
-			print("Reprepro is already installed")
 
 @task(alias='reprepro_setup')
 @hosts('host1.local')
