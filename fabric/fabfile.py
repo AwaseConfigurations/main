@@ -33,7 +33,8 @@ def init():
 	#change_passwd('ubuntu','')
 
 @task(alias='main')
-@with_settings(warn_only=True)
+@parallel
+@with_settings(warn_only=True,linewise=True)
 def main():
 	if not _is_host_up(env.host):
                 return
@@ -319,4 +320,11 @@ def bg_old():
 		local("wget http://myy.haaga-helia.fi/~a0900094/awasebg.jpg")
 		put("awasebg.jpg","/tmp/")
 	sudo("cp /tmp/awasebg.jpg /usr/share/backgrounds/warty-final-ubuntu.png")
+
+@task(alias='cmd')
+@with_settings(warn_only=True)
+def cmd(command):
+	if not _is_host_up(env.host):
+                return
+	run(command)
 
