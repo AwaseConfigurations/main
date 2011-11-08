@@ -11,24 +11,23 @@ env.roledefs={
 'workstations' : ['host3.local','host4.local','host5.local','host6.local','host7.local','host8.local','host9.local', 'host10.local','host11.local', 'host12.local','host13.local','host14.local','host15.local','host16.local','host17.local','host18.local','host19.local', 'host20.local','host21.local','host23.local','host24.local','host25.local','host26.local','host27.local','host28.local','host29.local','host30.local']
 }
 
-def _is_host_up(host, port):
+def _is_host_up(host):
     original_timeout = socket.getdefaulttimeout()
     new_timeout = 1
     socket.setdefaulttimeout(new_timeout)
     host_status = False
     try:
-        transport = paramiko.Transport((host, port))
+        transport = paramiko.Transport((host, 22))
         host_status = True
     except:
-        print('{host} down.'.format(host=host)
-        )
+        print('{host} down.'.format(host=host))
     socket.setdefaulttimeout(original_timeout)
     return host_status
 
 @task(alias='init')
 @with_settings(warn_only=True)
 def init():
-	if not _is_host_up(env.host, int(env.port)):
+	if not _is_host_up(env.host):
 		return
 	sshkey()
 	#change_passwd('ubuntu','')
@@ -36,7 +35,7 @@ def init():
 @task(alias='main')
 @with_settings(warn_only=True)
 def main():
-	if not _is_host_up(env.host, int(env.port)):
+	if not _is_host_up(env.host):
                 return
 	#add_user(simo)
 	auto_upgrade()
@@ -52,28 +51,28 @@ def main():
 @task(alias='put_file')
 @with_settings(warn_only=True)
 def put_file(path1, path2):
-	if not _is_host_up(env.host, int(env.port)):
+	if not _is_host_up(env.host):
                 return
 	put(path1,path2)
 
 @task(alias='get_file')
 @with_settings(warn_only=True)
 def get_file(path1, path2):
-	if not _is_host_up(env.host, int(env.port)):
+	if not _is_host_up(env.host):
 		return	
 	get(path1,path2)
 
 @task(alias='remove_file')
 @with_settings(warn_only=True)
 def remove_file(path):
-	if not _is_host_up(env.host, int(env.port)):
+	if not _is_host_up(env.host):
 		return
 	sudo("rm -r %s" % path)
 
 @task(alias='add_user')
 @with_settings(warn_only=True)
 def add_user(new_user):
-	if not _is_host_up(env.host, int(env.port)):
+	if not _is_host_up(env.host):
 		return	
 	if sudo("useradd -m %s" % new_user).failed:
 		print("User %s already exists!" % new_user)
@@ -84,21 +83,21 @@ def add_user(new_user):
 @task(alias='change_passwd')
 @with_settings(warn_only=True)
 def change_passwd(user,passwod):
-        if not _is_host_up(env.host, int(env.port)):
+        if not _is_host_up(env.host):
 		return	
 	sudo("echo -e '%s\n%s' | passwd %s" % (passwod,passwod,user))
 
 @task(alias='del_user')
 @with_settings(warn_only=True)
 def delete_user(del_user):
-	if not _is_host_up(env.host, int(env.port)):
+	if not _is_host_up(env.host):
 		return
 	sudo("deluser %s" % del_user)
 
 @task(alias='config')
 @with_settings(warn_only=True)
 def config(conff):
-	if not _is_host_up(env.host, int(env.port)):
+	if not _is_host_up(env.host):
 		return
 	if conff=='php_enable':
 		if env.host=='host1.local':
@@ -111,27 +110,27 @@ def config(conff):
 
 @task
 def status():
-	if not _is_host_up(env.host, int(env.port)):
+	if not _is_host_up(env.host):
 		return
 	run("uptime")
 	run("uname -a")
 
 @task(alias='shutdown')
 def shut_down():
-	if not _is_host_up(env.host, int(env.port)):
+	if not _is_host_up(env.host):
 		return
 	sudo("shutdown -P 0")
 
 @task
 def reboot():
-	if not _is_host_up(env.host, int(env.port)):
+	if not _is_host_up(env.host):
 		return
 	sudo("shutdown -r 0")
 
 @task(alias='install')
 @with_settings(warn_only=True)
 def install(package):
-	if not _is_host_up(env.host, int(env.port)):
+	if not _is_host_up(env.host):
 		return
 	sudo("apt-get update")
 	if sudo("apt-get -y install %s" % package).failed:
@@ -142,20 +141,20 @@ def install(package):
 
 @task
 def uninstall(package):
-	if not _is_host_up(env.host, int(env.port)):
+	if not _is_host_up(env.host):
 		return
 	sudo("apt-get remove %s" % package)
 
 @task
 def update():
-	if not _is_host_up(env.host, int(env.port)):
+	if not _is_host_up(env.host):
 		return
 	sudo("apt-get update")
 
 @task(alias='upgrade')
 @with_settings(warn_only=True)
 def upgrade():
-	if not _is_host_up(env.host, int(env.port)):
+	if not _is_host_up(env.host):
 		return
 	sudo("apt-get update")
 	sudo("apt-get -y upgrade")
@@ -163,7 +162,7 @@ def upgrade():
 @task(alias='auto_install')
 @with_settings(warn_only=True)
 def auto_install(package): # this will auto answer "yes" to all and keep old config files
-	if not _is_host_up(env.host, int(env.port)):
+	if not _is_host_up(env.host):
 		return
 	sudo("apt-get update")
 	sudo('apt-get install -o Dpkg::Options::="--force-confold" --force-yes -y %s' % package)
@@ -171,7 +170,7 @@ def auto_install(package): # this will auto answer "yes" to all and keep old con
 @task(alias='auto_upgrade')
 @with_settings(warn_only=True)
 def auto_upgrade():
-        if not _is_host_up(env.host, int(env.port)):
+        if not _is_host_up(env.host):
 		return
 	sudo("apt-get update")
         sudo('apt-get upgrade -o Dpkg::Options::="--force-confold" --force-yes -y')
@@ -179,7 +178,7 @@ def auto_upgrade():
 @task(alias='auto_dist_upgrade')
 @with_settings(warn_only=True)
 def auto_dist_upgrade():
-        if not _is_host_up(env.host, int(env.port)):
+        if not _is_host_up(env.host):
 		return
 	sudo("apt-get update")
         sudo('apt-get dist-upgrade -o Dpkg::Options::="--force-confold" --force-yes -y')
@@ -187,7 +186,7 @@ def auto_dist_upgrade():
 @task(alias='release_upgrade')
 @with_settings(warn_only=True)
 def release_upgrade():
-	if not _is_host_up(env.host, int(env.port)):
+	if not _is_host_up(env.host):
 		return
 	sudo("apt-get update")
 	sudo("apt-get upgrade")
@@ -196,7 +195,7 @@ def release_upgrade():
 
 @task
 def add_reposource():
-        if not _is_host_up(env.host, int(env.port)):
+        if not _is_host_up(env.host):
 		return
 	with cd("/etc/apt/sources.list.d/"):
 		sudo("echo deb http://host1.local/~ubuntu/ natty main >> repository.list")
@@ -208,7 +207,7 @@ def add_reposource():
 @task
 @hosts('host1.local')
 def install_apache():
-	if not _is_host_up(env.host, int(env.port)):
+	if not _is_host_up(env.host):
 		return
 	sudo("apt-get update")
 	sudo("apt-get -y install apache2")
@@ -219,7 +218,7 @@ def install_apache():
 @hosts('host1.local')
 @with_settings(warn_only=True)
 def webserver_setup():
-	if not _is_host_up(env.host, int(env.port)):
+	if not _is_host_up(env.host):
 		return
 	install_apache()
 	install('php5')
@@ -233,7 +232,7 @@ def webserver_setup():
 @task
 @hosts('host1.local')
 def reprepro_setup_old():
-	if not _is_host_up(env.host, int(env.port)):
+	if not _is_host_up(env.host):
 		return
 	with settings(hide('warnings','running','stdout','stderr'),warn_only=True):
 		if run("reprepro -h").failed:
@@ -256,7 +255,7 @@ def reprepro_setup_old():
 @hosts('host1.local')
 @with_settings(warn_only=True)
 def reprepro_setup():
-	if not _is_host_up(env.host, int(env.port)):
+	if not _is_host_up(env.host):
                 return
         sudo("apt-get update")
         sudo("apt-get -y install reprepro")	
@@ -270,7 +269,7 @@ def reprepro_setup():
 @hosts('host1.local')
 @with_settings(warn_only=True)
 def add_to_repo():
-	if not _is_host_up(env.host, int(env.port)):
+	if not _is_host_up(env.host):
 		return
 	with cd('~/public_html/'):
 		run("cp ~/main/packages/php/php-enable-users/php-enable-users_0.1_all.deb ~/public_html/")
@@ -288,7 +287,7 @@ def add_to_repo():
 @hosts('host1.local')
 @with_settings(warn_only=True)
 def clonegit():
-	if not _is_host_up(env.host, int(env.port)):
+	if not _is_host_up(env.host):
 		return
 	install('git')
 	with cd('~/'):
@@ -297,7 +296,7 @@ def clonegit():
 @task(alias='sshkey')
 @with_settings(warn_only=True)
 def sshkey():
-	if not _is_host_up(env.host, int(env.port)):
+	if not _is_host_up(env.host):
 		return
 	if local('ssh-copy-id '+env.user+'@'+env.host).failed:
 		local('ssh-keygen -N "" -q -f .ssh/id_rsa -t rsa')
@@ -307,14 +306,14 @@ def sshkey():
 @task(alias='bg')
 @with_settings(warn_only=True)
 def bg():
-	if not _is_host_up(env.host, int(env.port)):
+	if not _is_host_up(env.host):
 		return
 	run("wget http://myy.haaga-helia.fi/~a0900094/awasebg.jpg")
 	sudo("mv -b awasebg.jpg /usr/share/backgrounds/warty-final-ubuntu.png")
 
 @with_settings(warn_only=True)
 def bg_old():
-	if not _is_host_up(env.host, int(env.port)):
+	if not _is_host_up(env.host):
                 return
 	if put("awasebg.jpg","/tmp/").failed:
 		local("wget http://myy.haaga-helia.fi/~a0900094/awasebg.jpg")
