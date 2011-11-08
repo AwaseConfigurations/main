@@ -79,7 +79,7 @@ def add_user(new_user):
 		print("User %s already exists!" % new_user)
 		return
 	sudo("mkdir /home/%s/public_html" % new_user)
-	sudo("chown %s:%s /home/%s/public_html/" % new_user)
+	sudo("chown %s:%s /home/%s/public_html/" % (new_user,new_user,new_user))
 
 @task(alias='change_passwd')
 @with_settings(warn_only=True)
