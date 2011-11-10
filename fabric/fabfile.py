@@ -306,3 +306,10 @@ def cmd(command):
                 return
 	run(command)
 
+@task(alias='point_to_proxy')
+@roles('workstations')
+@with_settings(warn_only=True)
+def point_to_proxy():
+	if not _is_host_up(env.host):
+                return
+	sudo("""echo 'Acquire::http { Proxy "http://host1.local:3142"; };' | tee /etc/apt/apt.conf""")
