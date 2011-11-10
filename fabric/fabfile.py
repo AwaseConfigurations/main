@@ -181,8 +181,10 @@ def auto_upgrade():
 def auto_dist_upgrade():
         if not _is_host_up(env.host):
 		return
+	# NOTE: change natty to oneiric in the sources.list (conf package)
 	sudo("apt-get update")
-        sudo('apt-get dist-upgrade -o Dpkg::Options::="--force-confold" --force-yes -y')
+        sudo('DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get dist-upgrade -o Dpkg::Options::="--force-confold" --force-yes -y')
+	sudo("reboot")
 
 @task(alias='release_upgrade')
 @with_settings(warn_only=True)
@@ -313,3 +315,12 @@ def point_to_proxy():
 	if not _is_host_up(env.host):
                 return
 	sudo("""echo 'Acquire::http { Proxy "http://host1.local:3142"; };' | tee /etc/apt/apt.conf""")
+
+@task(alias='sshfs')
+@roles('workstations')
+@with_settings(warn_only=True)
+def sshfs():
+	if not _is_host_up(env.host):
+                return
+	install('sshfs')
+	run('sshfs ubuntu@host1.local:/home/ubuntu/backup/ /home/ubuntu/backup')
