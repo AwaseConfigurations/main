@@ -1,0 +1,13 @@
+Source: oneiric-sources
+Section: config
+Priority: extra
+Maintainer: Henri Siponen <hng.siponen@gmail.com>
+Build-Depends: @cdbs@
+Standards-Version: 3.8.0
+
+Package: oneiric-sources
+Architecture: all
+Depends: cdbs, ${misc:Depends}
+Provides: ${diverted-files}
+Conflicts: ${diverted-files}
+Description: This is a config package

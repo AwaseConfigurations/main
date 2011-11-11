@@ -1,0 +1,2 @@
+#!/usr/bin/perl -0p
+s/natty/oneiric/g;
