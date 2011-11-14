@@ -13,7 +13,7 @@ d-i	mirror/country string FI
 d-i	mirror/http/proxy string
 d-i     netcfg/get_nameservers  string
 d-i     netcfg/get_ipaddress    string
-d-i     netcfg/get_netmask      string 255.255.255.0
+d-i     netcfg/get_netmask      string
 d-i     netcfg/get_gateway      string
 d-i     netcfg/confirm_static   boolean true
 d-i     clock-setup/utc boolean true
