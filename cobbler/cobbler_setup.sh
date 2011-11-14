@@ -46,14 +46,14 @@ sleep 1
 sudo cobbler sync
 
 #mount ubuntu images, ipport them with cobbler, and assign preconfigured preseeds
-sudo mkdir /mnt/ubu-server
-sudo mkdir /mnt/ubu-ws
-sudo mount -o loop ubuntu-11.04-alternate-i386.iso /mnt/ubu-ws
-sudo cobbler import --name=ubuntu-alternate --path=/mnt --breed=ubuntu
+sudo mkdir /mnt/server
+sudo mkdir /mnt/ws
+sudo mount -o loop ubuntu-11.04-alternate-i386.iso /mnt/ws
+sudo cobbler import --name=ubuntu-alternate --path=/mnt/ws --breed=ubuntu
 sudo cobbler profile edit --name=ubuntu-alternate-i386 --kickstart=/var/lib/cobbler/kickstarts/ubuntu-nqa-ws.seed --kopts="priority=critical locale=en_US"
 
-sudo mount -o loop ubuntu-11.04-alternate-i386.iso /mnt/ubu-server
-sudo cobbler import --name=ubuntu-server --path=/mnt --breed=ubuntu
+sudo mount -o loop ubuntu-11.04-server-i386.iso /mnt/server
+sudo cobbler import --name=ubuntu-server --path=/mnt/server --breed=ubuntu
 sudo cobbler profile edit --name=ubuntu-server-i386 --kickstart=/var/lib/cobbler/kickstarts/ubuntu-nqa-server.seed --kopts="priority=critical locale=en_US"
 
 #restart and rebuild cobbler
