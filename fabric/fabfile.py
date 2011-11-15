@@ -231,6 +231,7 @@ def webserver_setup():
 	add_to_repo()
 	config('php_enable')
 	sudo("/etc/init.d/apache2 restart")
+	run('mkdir backup')
 
 @task(alias='reprepro_setup')
 @hosts('host1.local')
@@ -283,10 +284,28 @@ def sshkey():
 		local('ssh-keygen -N "" -q -f .ssh/id_rsa -t rsa')
 		local('ssh-copy-id '+env.user+'@'+env.host)
 		
-	
+
 @task(alias='bg')
 @with_settings(warn_only=True)
 def bg():
+        if not _is_host_up(env.host):
+                return
+	if local("ls awasebg.jpg").failed:
+		local("wget http://myy.haaga-helia.fi/~a0900094/awasebg.jpg")
+        put("awasebg.jpg","/usr/share/backgrounds/warty-final-ubuntu.png",use_sudo=True)
+
+@task(alias='set_bg')
+@with_settings(warn_only=True)
+def set_bg(bg):
+        if not _is_host_up(env.host):
+                return
+        if local("ls %s" % bg).failed:
+                local("echo bg file not found")
+		return
+        put(bg,"/usr/share/backgrounds/warty-final-ubuntu.png",use_sudo=True)
+	
+@with_settings(warn_only=True)
+def bg_old2():
 	if not _is_host_up(env.host):
 		return
 	run("wget http://myy.haaga-helia.fi/~a0900094/awasebg.jpg")
@@ -322,5 +341,6 @@ def point_to_proxy():
 def sshfs():
 	if not _is_host_up(env.host):
                 return
+	run('mkdir backup')
 	install('sshfs')
 	run('sshfs ubuntu@host1.local:/home/ubuntu/backup/ /home/ubuntu/backup')
