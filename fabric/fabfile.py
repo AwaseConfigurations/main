@@ -39,11 +39,11 @@ def main():
 	if not _is_host_up(env.host):
                 return
 	add_user('simo')
+	sudo("software-properties-gtk -e universe")
 	auto_upgrade()
 	if env.host=='host1.local':
 		webserver_setup()
 	add_reposource()
-	config('add_unimulti')
 	if env.host!='host1.local':
 		install('ubuntu-desktop')
 		bg()
@@ -78,8 +78,9 @@ def add_user(new_user):
 	if sudo("useradd -m %s" % new_user).failed:
 		print("User %s already exists!" % new_user)
 		return
-	sudo("mkdir /home/%s/public_html" % new_user)
-	sudo("chown %s:%s /home/%s/public_html/" % (new_user,new_user,new_user))
+	if env.host=='host1.local': 
+		sudo("mkdir /home/%s/public_html" % new_user)
+		sudo("chown %s:%s /home/%s/public_html/" % (new_user,new_user,new_user))
 
 @task(alias='change_passwd')
 @with_settings(warn_only=True)
@@ -108,6 +109,8 @@ def config(conff):
 			install_apache()
 	elif conff=='add_unimulti':
 		auto_install('add-unimulti')
+	elif conff=='oneiric-sources':
+		auto_install('oneiric-sources')
 
 @task
 def status():
@@ -177,11 +180,12 @@ def auto_upgrade():
         sudo('apt-get upgrade -o Dpkg::Options::="--force-confold" --force-yes -y')
 
 @task(alias='auto_dist_upgrade')
+@roles('workstations')
 @with_settings(warn_only=True)
 def auto_dist_upgrade():
         if not _is_host_up(env.host):
 		return
-	# NOTE: change natty to oneiric in the sources.list (conf package)
+	config('oneiric-sources')
 	sudo("apt-get update")
         sudo('DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get dist-upgrade -o Dpkg::Options::="--force-confold" --force-yes -y')
 	sudo("reboot")
@@ -256,14 +260,18 @@ def add_to_repo():
 	with cd('~/public_html/'):
 		run("cp ~/main/packages/php/php-enable-users/php-enable-users_0.1_all.deb ~/public_html/")
 		run("cp ~/main/packages/apt/add-unimulti/add-unimulti_0.1_all.deb ~/public_html/")
-		run("reprepro includedeb natty add-unimulti_0.1_all.deb")			
+		run("cp ~/main/packages/apt/oneiric-sources/oneiric-sources_0.1_all.deb ~/public_html/")
+		run("reprepro includedeb natty add-unimulti_0.1_all.deb")
+		run("reprepro includedeb natty oneiric-sources_0.1_all.deb")
 		if run("reprepro includedeb natty php-enable-users_0.1_all.deb").failed:
 			reprepro_setup()
 			clonegit()
 			run("cp ~/main/packages/php/php-enable-users/php-enable-users_0.1_all.deb ~/public_html/")
 			run("cp ~/main/packages/apt/add-unimulti/add-unimulti_0.1_all.deb ~/public_html/")
+			run("cp ~/main/packages/apt/oneiric-sources/oneiric-sources_0.1_all.deb ~/public_html/")
 			run("reprepro includedeb natty php-enable-users_0.1_all.deb")					
 			run("reprepro includedeb natty add-unimulti_0.1_all.deb")
+			run("reprepro includedeb natty oneiric-sources_0.1_all.deb")
 
 @task(alias='clonegit')
 @hosts('host1.local')
