@@ -51,24 +51,24 @@ def main():
 
 @task(alias='put_file')
 @with_settings(warn_only=True)
-def put_file(path1, path2):
+def put_file(localpath, remotepath):
 	if not _is_host_up(env.host):
                 return
-	put(path1,path2)
+	put(localpath,remotepath)
 
 @task(alias='get_file')
 @with_settings(warn_only=True)
-def get_file(path1, path2):
+def get_file(remotepath, localpath):
 	if not _is_host_up(env.host):
 		return	
-	get(path1,path2)
+	get(remotepath,localpath)
 
 @task(alias='remove_file')
 @with_settings(warn_only=True)
-def remove_file(path):
+def remove_file(remotepath):
 	if not _is_host_up(env.host):
 		return
-	sudo("rm -r %s" % path)
+	sudo("rm -r %s" % remotepath)
 
 @task(alias='add_user')
 @with_settings(warn_only=True)
@@ -91,10 +91,10 @@ def change_passwd(user,passwod):
 
 @task(alias='del_user')
 @with_settings(warn_only=True)
-def delete_user(del_user):
+def delete_user(user):
 	if not _is_host_up(env.host):
 		return
-	sudo("deluser %s" % del_user)
+	sudo("deluser %s" % user)
 
 @task(alias='config')
 @with_settings(warn_only=True)
