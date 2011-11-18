@@ -6,7 +6,7 @@
 # License: GNU General Public License, version 2 or later
 
 wget https://github.com/AwaseConfigurations/main/raw/master/packages/apt/oneiric-sources/oneiric-sources_0.1_all.deb
-sudo apt-get install gdebi
+sudo apt-get -y install gdebi
 sudo gdebi -n oneiric-sources_0.1_all.deb
 sudo cp /etc/apt/sources.list /etc/apt/sources.list.backup
 sudo apt-get -y remove oneiric-sources
