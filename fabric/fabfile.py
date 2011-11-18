@@ -335,6 +335,13 @@ def cmd(command):
                 return
 	run(command)
 
+@task(alias='scmd')
+@with_settings(warn_only=True)
+def scmd(command):
+	if not _is_host_up(env.host):
+                return
+        sudo(command)
+
 @task(alias='point_to_proxy')
 @roles('workstations')
 @with_settings(warn_only=True)
@@ -349,6 +356,6 @@ def point_to_proxy():
 def sshfs():
 	if not _is_host_up(env.host):
                 return
-	run('mkdir backup')
+	run('mkdir desktop/backup')
 	install('sshfs')
-	run('sshfs ubuntu@host1.local:/home/ubuntu/backup/ /home/ubuntu/backup')
+	run('sshfs ubuntu@host1.local:/home/ubuntu/backup/ /home/ubuntu/desktop/backup')
