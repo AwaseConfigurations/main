@@ -40,14 +40,17 @@ def main():
                 return
 	add_user('simo')
 	sudo("software-properties-gtk -e universe")
-	auto_upgrade()
+	update()
 	if env.host=='host1.local':
 		webserver_setup()
+		squid_setup()
 	add_reposource()
 	if env.host!='host1.local':
+		point_to_proxy()
 		install('ubuntu-desktop')
 		bg()
 		reboot()
+		
 
 @task(alias='put_file')
 @with_settings(warn_only=True)
@@ -87,7 +90,7 @@ def add_user(new_user):
 def change_passwd(user,passwod):
         if not _is_host_up(env.host):
 		return	
-	sudo("echo -e '%s\n%s' | passwd %s" % (passwod,passwod,user))
+	sudo("echo -e '%s\n%s' | passwd %supdate()" % (passwod,passwod,user))
 
 @task(alias='del_user')
 @with_settings(warn_only=True)
@@ -147,7 +150,7 @@ def install(package):
 def uninstall(package):
 	if not _is_host_up(env.host):
 		return
-	sudo("apt-get remove %s" % package)
+	sudo("apt-get -y remove %s" % package)
 
 @task
 def update():
@@ -348,7 +351,7 @@ def scmd(command):
 def point_to_proxy():
 	if not _is_host_up(env.host):
                 return
-	sudo("""echo 'Acquire::http { Proxy "http://host1.local:3142"; };' | tee /etc/apt/apt.conf""")
+	sudo("""echo 'Acquire { Retries "0"; HTTP { Proxy "http://host1.local:3128"; }; };' | tee /etc/apt/apt.conf""")
 
 @task(alias='sshfs')
 @roles('workstations')
@@ -359,3 +362,15 @@ def sshfs():
 	run('mkdir desktop/backup')
 	install('sshfs')
 	run('sshfs ubuntu@host1.local:/home/ubuntu/backup/ /home/ubuntu/desktop/backup')
+
+@task
+@hosts('host1.local')
+def squid_setup():
+	if not _is_host_up(env.host):
+		return
+	sudo("apt-get update")
+	sudo("apt-get -y install squid")
+	run("wget https://raw.github.com/AwaseConfigurations/main/master/squid/squid.conf")
+        sudo("cp squid.conf /etc/squid/squid.conf")
+	sudo("chown root:root /etc/squid/squid.conf")
+	sudo("service squid restart")
