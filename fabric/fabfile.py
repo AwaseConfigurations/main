@@ -47,10 +47,10 @@ def main():
 	add_reposource()
 	if env.host!='host1.local':
 		point_to_proxy()
-		install('ubuntu-desktop')
-		bg()
-		reboot()
-		
+		if run("ls /etc/gnome").failed:
+			install('ubuntu-desktop')
+			bg()
+			reboot()
 
 @task(alias='put_file')
 @with_settings(warn_only=True)
@@ -74,6 +74,7 @@ def remove_file(remotepath):
 	sudo("rm -r %s" % remotepath)
 
 @task(alias='add_user')
+@parallel
 @with_settings(warn_only=True)
 def add_user(new_user):
 	if not _is_host_up(env.host):
@@ -93,6 +94,7 @@ def change_passwd(user,passwod):
 	sudo("echo -e '%s\n%s' | passwd %supdate()" % (passwod,passwod,user))
 
 @task(alias='del_user')
+@parallel
 @with_settings(warn_only=True)
 def delete_user(user):
 	if not _is_host_up(env.host):
@@ -100,6 +102,7 @@ def delete_user(user):
 	sudo("deluser %s" % user)
 
 @task(alias='config')
+@parallel
 @with_settings(warn_only=True)
 def config(conff):
 	if not _is_host_up(env.host):
@@ -123,18 +126,21 @@ def status():
 	run("uname -a")
 
 @task(alias='shutdown')
+@parallel
 def shut_down():
 	if not _is_host_up(env.host):
 		return
 	sudo("shutdown -P 0")
 
 @task
+@parallel
 def reboot():
 	if not _is_host_up(env.host):
 		return
 	sudo("shutdown -r 0")
 
 @task(alias='install')
+@parallel
 @with_settings(warn_only=True)
 def install(package):
 	if not _is_host_up(env.host):
@@ -147,18 +153,21 @@ def install(package):
                     	sudo("apt-get -y install %s" % package)
 
 @task
+@parallel
 def uninstall(package):
 	if not _is_host_up(env.host):
 		return
 	sudo("apt-get -y remove %s" % package)
 
 @task
+@parallel
 def update():
 	if not _is_host_up(env.host):
 		return
 	sudo("apt-get update")
 
 @task(alias='upgrade')
+@parallel
 @with_settings(warn_only=True)
 def upgrade():
 	if not _is_host_up(env.host):
@@ -167,6 +176,7 @@ def upgrade():
 	sudo("apt-get -y upgrade")
 
 @task(alias='auto_install')
+@parallel
 @with_settings(warn_only=True)
 def auto_install(package): # this will auto answer "yes" to all and keep old config files
 	if not _is_host_up(env.host):
@@ -175,6 +185,7 @@ def auto_install(package): # this will auto answer "yes" to all and keep old con
 	sudo('apt-get install -o Dpkg::Options::="--force-confold" --force-yes -y %s' % package)
 
 @task(alias='auto_upgrade')
+@parallel
 @with_settings(warn_only=True)
 def auto_upgrade():
         if not _is_host_up(env.host):
@@ -183,6 +194,7 @@ def auto_upgrade():
         sudo('apt-get upgrade -o Dpkg::Options::="--force-confold" --force-yes -y')
 
 @task(alias='auto_dist_upgrade')
+@parallel
 @roles('workstations')
 @with_settings(warn_only=True)
 def auto_dist_upgrade():
@@ -204,6 +216,7 @@ def release_upgrade():
 	sudo("do-release-upgrade")
 
 @task
+@parallel
 def add_reposource():
         if not _is_host_up(env.host):
 		return
@@ -297,6 +310,7 @@ def sshkey():
 		
 
 @task(alias='bg')
+@parallel
 @with_settings(warn_only=True)
 def bg():
         if not _is_host_up(env.host):
@@ -306,6 +320,7 @@ def bg():
         put("awasebg.jpg","/usr/share/backgrounds/warty-final-ubuntu.png",use_sudo=True)
 
 @task(alias='set_bg')
+@parallel
 @with_settings(warn_only=True)
 def set_bg(bg):
         if not _is_host_up(env.host):
@@ -346,6 +361,7 @@ def scmd(command):
         sudo(command)
 
 @task(alias='point_to_proxy')
+@parallel
 @roles('workstations')
 @with_settings(warn_only=True)
 def point_to_proxy():
