@@ -7,8 +7,8 @@ env.user='ubuntu'
 env.password='ubuntu'
 env.hosts=['host1.local','host2.local', 'host3.local','host4.local','host5.local','host6.local','host7.local','host8.local','host9.local', 'host10.local','host11.local', 'host12.local','host13.local','host14.local','host15.local','host16.local','host17.local','host18.local','host19.local', 'host20.local','host21.local','host22.local','host23.local','host24.local','host25.local','host26.local','host27.local','host28.local','host29.local','host30.local']
 env.roledefs={
-'servers' : ['host1.local','host2.local'],
-'workstations' : ['host3.local','host4.local','host5.local','host6.local','host7.local','host8.local','host9.local', 'host10.local','host11.local', 'host12.local','host13.local','host14.local','host15.local','host16.local','host17.local','host18.local','host19.local', 'host20.local','host21.local','host22.local','host23.local','host24.local','host25.local','host26.local','host27.local','host28.local','host29.local','host30.local']
+'servers' : ['host1.local'],
+'workstations' : ['host2.local','host3.local','host4.local','host5.local','host6.local','host7.local','host8.local','host9.local', 'host10.local','host11.local', 'host12.local','host13.local','host14.local','host15.local','host16.local','host17.local','host18.local','host19.local', 'host20.local','host21.local','host22.local','host23.local','host24.local','host25.local','host26.local','host27.local','host28.local','host29.local','host30.local']
 }
 
 def _is_host_up(host):
@@ -29,28 +29,33 @@ def _is_host_up(host):
 def init():
 	if not _is_host_up(env.host):
 		return
-        sudo("software-properties-gtk -e universe")
-        update()
+        if env.host=='host1.local':
+		webserver_setup()
+		squid_setup()
+	
 	#sshkey()
 	#change_passwd('ubuntu','')
 
 @task(alias='main')
+@roles('workstations')
 @parallel
 @with_settings(warn_only=True,linewise=True)
 def main():
 	if not _is_host_up(env.host):
                 return
+	point_to_proxy()
 	add_user('simo')
-	if env.host=='host1.local':
-		webserver_setup()
-		squid_setup()
 	add_reposource()
-	if env.host!='host1.local':
-		point_to_proxy()
-		if run("ls /etc/gnome").failed:
-			install('ubuntu-desktop')
-			bg()
-			reboot()
+	sudo("software-properties-gtk -e universe")
+        update()
+	if run("ls /etc/gnome").failed:
+		install('ubuntu-desktop')
+		bg()
+		reboot()
+	
+	
+	
+	
 
 @task(alias='put_file')
 @with_settings(warn_only=True)
