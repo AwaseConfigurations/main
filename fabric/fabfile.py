@@ -395,7 +395,7 @@ def sshfs():
                 return
 	run('mkdir Desktop/backup')
 	install('sshfs')
-	run('sshfs ubuntu@host1.local:/home/ubuntu/backup/ /home/ubuntu/desktop/backup')
+	run('sshfs ubuntu@host1.local:/home/ubuntu/backup/ /home/ubuntu/Desktop/backup')
 
 @task
 @hosts('host1.local')
