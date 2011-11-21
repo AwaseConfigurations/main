@@ -1,42 +1,126 @@
-fab command examples for each task:
+fabfile methods:
 
-put_file:
+_is_host_up(host)
+Checks whether the slave is online.
+
+init()
+
+main()
+
+put_file(localpath,remotepath)
+
+Examples:
 fab put_file:'testfile','/home/ubuntu/'
 fab put_file:hosts="admin@webserver;admin@ws1",path1='/home/admin/index.html',path2='/home/admin/public_html/'
 fab put_file:path1='/home/admin/package.deb',path2='/tmp/'
 
-get_file:
+
+get_file(remotepath,localpath)
+
+Examples:
 fab get_file:hosts="admin@webserver",path1='/var/log/auth.log',path2='/home/admin/logs/'
 fab get_file:path1='/var/log/auth.log',path2='/home/admin/logs/'
 
-add_user:
+
+remove_file(remotepath)
+
+Examples:
+add_user(user)
 fab add_user:dude
 fab add_user:new_user='dude'
 
-delete_user:	# this does not delete user home folder
+
+change_passwd(user, passwod)
+
+Examples:
+delete_user(user)	# this does not delete user home folder
 fab delete_user:dude
+
+
+config(conff)
 
 status
 fab status
 
-install
+install(package)
+
+Examples:
 fab install:geany
 fab install:gnome,roles='workstations'
 fab install:php5,roles='servers'
 
-reboot
+
+uninstall(package)
+
+Examples:
+fab uninstall:geany
+
+
+reboot()
+
+Examples:
 fab reboot
 fab reboot:hosts='ws1;ws2;ws3'
 
-shutdown
+
+shutdown()
+
+Examples:
 fab shut_down
 
-uninstall
-fab uninstall:geany
 
-update
+update()
+
+Examples:
 fab update
 
-upgrade
+
+upgrade()
+
+Examples:
 fab upgrade
 fab upgrade:roles='servers'
+
+
+auto_install(package)
+
+Examples:
+
+
+auto_upgrade()
+
+auto_dist_upgrade()
+
+release_upgrade()
+
+add_reposource()
+
+install_apache()
+
+webserver_setup()
+
+reprepro_setup()
+
+add_to_repo()
+
+clonegit()
+
+sshkey()
+
+bg()
+
+set_bg(bg)
+
+bg_old2()
+
+bg_old()
+
+cmd(command)
+
+scmd(command)
+
+point_to_proxy()
+
+sshfs()
+
+squid_setup()
