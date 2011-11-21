@@ -29,7 +29,9 @@ def _is_host_up(host):
 def init():
 	if not _is_host_up(env.host):
 		return
-	sshkey()
+        sudo("software-properties-gtk -e universe")
+        update()
+	#sshkey()
 	#change_passwd('ubuntu','')
 
 @task(alias='main')
@@ -39,8 +41,6 @@ def main():
 	if not _is_host_up(env.host):
                 return
 	add_user('simo')
-	sudo("software-properties-gtk -e universe")
-	update()
 	if env.host=='host1.local':
 		webserver_setup()
 		squid_setup()
