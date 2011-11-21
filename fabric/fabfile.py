@@ -306,6 +306,7 @@ def sshkey():
 	if not _is_host_up(env.host):
 		return
 	if local('ssh-copy-id '+env.user+'@'+env.host).failed:
+		local('sudo apt-get -y install ssh')
 		local('ssh-keygen -N "" -q -f .ssh/id_rsa -t rsa')
 		local('ssh-copy-id '+env.user+'@'+env.host)
 		
