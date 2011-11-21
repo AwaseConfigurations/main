@@ -150,7 +150,8 @@ def install(package):
 		local("echo FAIL "+env.host+": failed to install %s $(date) >> ~/fail.log" % package)
 		for i in range(1,3):
 			sudo("apt-get update")
-                    	sudo("apt-get -y install %s" % package)
+                    	if sudo("apt-get -y install %s" % package).failed:
+				local("echo MULTIFAIL "+env.host+": failed to install %s $(date) >> ~/fail.log" % package)
 
 @task
 @parallel
