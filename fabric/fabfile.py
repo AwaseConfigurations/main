@@ -51,6 +51,7 @@ def main():
 	if run("ls /etc/gnome").failed:
 		install('ubuntu-desktop')
 		bg()
+		soundgreeting()
 		reboot()	
 	
 
@@ -66,7 +67,7 @@ def put_file(localpath, remotepath):
 def get_file(remotepath, localpath):
 	if not _is_host_up(env.host):
 		return	
-	get(remotepath,localpath)
+	get(remotepath,localpath+'.'+env.host)
 
 @task(alias='remove_file')
 @with_settings(warn_only=True)
@@ -93,7 +94,7 @@ def add_user(new_user):
 def change_passwd(user,passwod):
         if not _is_host_up(env.host):
 		return	
-	sudo("echo -e '%s\n%s' | passwd %supdate()" % (passwod,passwod,user))
+	sudo("echo -e '%s\n%s' | passwd %s" % (passwod,passwod,user))
 
 @task(alias='del_user')
 @parallel
@@ -211,22 +212,22 @@ def auto_upgrade():
 def auto_dist_upgrade():
         if not _is_host_up(env.host):
 		return
+	if run('lsb_release -c') == 'Codename:	oneiric':
+		return
 	config('oneiric-sources')
 	sudo("apt-get update")
-        sudo('DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get dist-upgrade -o Dpkg::Options::="--force-confold" --force-yes -y')
+	sudo('DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get dist-upgrade -o Dpkg::Options::="--force-confold" --force-yes -y')
 	bg()
 	soundgreeting()
 	sudo("reboot")
 
-@task(alias='release_upgrade')
-@with_settings(warn_only=True)
-def release_upgrade():
-	if not _is_host_up(env.host):
-		return
-	sudo("apt-get update")
-	sudo("apt-get upgrade")
-	sudo("apt-get install update-manager-core")
-	sudo("do-release-upgrade")
+@task
+def outputtest():
+	mystore = run('lsb_release -c') 
+	if 'oneiric' in mystore:	
+		print('its oneiric!!')
+	else:
+		print('else')
 
 @task
 @parallel
