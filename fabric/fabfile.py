@@ -393,7 +393,7 @@ def point_to_proxy():
 def sshfs():
 	if not _is_host_up(env.host):
                 return
-	run('mkdir desktop/backup')
+	run('mkdir Desktop/backup')
 	install('sshfs')
 	run('sshfs ubuntu@host1.local:/home/ubuntu/backup/ /home/ubuntu/desktop/backup')
 
@@ -417,9 +417,9 @@ def squid_setup():
 def soundgreeting():
         if not _is_host_up(env.host):
                 return
-	if local("ls hi.ogg").failed:
-		local("wget http://myy.haaga-helia.fi/~a0903751/hi.ogg")
-        put("hi.ogg","/usr/share/sounds/ubuntu/stereo/dialog-question.ogg",use_sudo=True)
+	if local("ls heitero.ogg").failed:
+		local("wget http://myy.haaga-helia.fi/~a0903751/heitero.ogg")
+        put("heitero.ogg","/usr/share/sounds/ubuntu/stereo/dialog-question.ogg",use_sudo=True)
 
 @task(alias='set_soundgreeting')
 @parallel
@@ -428,6 +428,6 @@ def set_soundgreeting(soundfile):
         if not _is_host_up(env.host):
                 return
         if local("ls %s" % soundfile).failed:
-                local("echo bg file not found")
+                local("echo soundfile file not found")
 		return
         put(soundfile,"/usr/share/sounds/ubuntu/stereo/dialog-question.ogg",use_sudo=True)
