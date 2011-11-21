@@ -217,6 +217,8 @@ def auto_dist_upgrade():
 	config('oneiric-sources')
 	sudo("apt-get update")
         sudo('DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get dist-upgrade -o Dpkg::Options::="--force-confold" --force-yes -y')
+	bg()
+	soundgreeting()
 	sudo("reboot")
 
 @task(alias='release_upgrade')
@@ -405,3 +407,24 @@ def squid_setup():
         sudo("cp squid.conf /etc/squid/squid.conf")
 	sudo("chown root:root /etc/squid/squid.conf")
 	sudo("service squid restart")
+
+@task(alias='soundgreeting')
+@parallel
+@with_settings(warn_only=True)
+def soundgreeting():
+        if not _is_host_up(env.host):
+                return
+	if local("ls hi.ogg").failed:
+		local("wget http://myy.haaga-helia.fi/~a0903751/hi.ogg")
+        put("hi.ogg","/usr/share/sounds/ubuntu/stereo/dialog-question.ogg",use_sudo=True)
+
+@task(alias='set_soundgreeting')
+@parallel
+@with_settings(warn_only=True)
+def set_soundgreeting(soundfile):
+        if not _is_host_up(env.host):
+                return
+        if local("ls %s" % soundfile).failed:
+                local("echo bg file not found")
+		return
+        put(soundfile,"/usr/share/sounds/ubuntu/stereo/dialog-question.ogg",use_sudo=True)
