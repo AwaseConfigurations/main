@@ -109,14 +109,22 @@ def config(conff):
 		return
 	if conff=='php_enable':
 		if env.host=='host1.local':
+			sudo("mv /etc/apt/apt.conf /etc/apt/simo.hng")
 			auto_install('php-enable-users')
+			sudo("mv /etc/apt/simo.hng /etc/apt/apt.conf")
 	elif conff=='apache_userdir':
 		if env.host=='host1.local':
+			sudo("mv /etc/apt/apt.conf /etc/apt/simo.hng")
 			install_apache()
+			sudo("mv /etc/apt/simo.hng /etc/apt/apt.conf")
 	elif conff=='add_unimulti':
+		sudo("mv /etc/apt/apt.conf /etc/apt/simo.hng")
 		auto_install('add-unimulti')
+		sudo("mv /etc/apt/simo.hng /etc/apt/apt.conf")
 	elif conff=='oneiric-sources':
+		sudo("mv /etc/apt/apt.conf /etc/apt/simo.hng")
 		auto_install('oneiric-sources')
+		sudo("mv /etc/apt/simo.hng /etc/apt/apt.conf")
 
 @task
 def status():
