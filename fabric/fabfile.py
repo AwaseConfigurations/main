@@ -32,7 +32,7 @@ def init():
         if env.host=='host1.local':
 		webserver_setup()
 		squid_setup()
-	
+		add_reposource()	
 	#sshkey()
 	#change_passwd('ubuntu','')
 
@@ -51,10 +51,7 @@ def main():
 	if run("ls /etc/gnome").failed:
 		install('ubuntu-desktop')
 		bg()
-		reboot()
-	
-	
-	
+		reboot()	
 	
 
 @task(alias='put_file')
@@ -250,8 +247,9 @@ def install_apache():
 		return
 	sudo("apt-get update")
 	sudo("apt-get -y install apache2")
-	sudo("a2enmod userdir")
-	sudo("/etc/init.d/apache2 restart")
+	if run("ls /etc/apache2/mods-enabled/userdir.conf").failed:
+		sudo("a2enmod userdir")
+		sudo("/etc/init.d/apache2 restart")
 
 @task(alias='webserver_setup')
 @hosts('host1.local')
@@ -265,8 +263,9 @@ def webserver_setup():
 	clonegit()
 	add_reposource()
 	add_to_repo()
-	config('php_enable')
-	sudo("/etc/init.d/apache2 restart")
+	if run('ls /etc/apache2/mods-enabled/php5.conf.hng').failed:
+		config('php_enable')
+		sudo("/etc/init.d/apache2 restart")
 	run('mkdir backup')
 
 @task(alias='reprepro_setup')
@@ -275,12 +274,13 @@ def webserver_setup():
 def reprepro_setup():
 	if not _is_host_up(env.host):
                 return
-        sudo("apt-get update")
-        sudo("apt-get -y install reprepro")	
-	run("wget https://raw.github.com/AwaseConfigurations/main/master/scripts/reprepro_setup.sh")
-	run("chmod +x reprepro_setup.sh")
-	run("./reprepro_setup.sh")
-	run("rm reprepro_setup.sh")
+	if run("ls ~/public_html/conf/").failed:
+        	sudo("apt-get update")
+        	sudo("apt-get -y install reprepro")	
+		run("wget https://raw.github.com/AwaseConfigurations/main/master/scripts/reprepro_setup.sh")
+		run("chmod +x reprepro_setup.sh")
+		run("./reprepro_setup.sh")
+		run("rm reprepro_setup.sh")
 	
 
 @task(alias='add_to_repo')
@@ -401,15 +401,17 @@ def sshfs():
 def squid_setup():
 	if not _is_host_up(env.host):
 		return
-	sudo("apt-get update")
-	sudo("apt-get -y install squid")
-	run("wget https://raw.github.com/AwaseConfigurations/main/master/squid/squid.conf")
-        sudo("cp squid.conf /etc/squid/squid.conf")
-	sudo("chown root:root /etc/squid/squid.conf")
-	sudo("service squid restart")
+	if run("ls /etc/squid/squid.conf").failed:
+		sudo("apt-get update")
+		sudo("apt-get -y install squid")
+		run("wget https://raw.github.com/AwaseConfigurations/main/master/squid/squid.conf")
+	        sudo("cp squid.conf /etc/squid/squid.conf")
+		sudo("chown root:root /etc/squid/squid.conf")
+		sudo("service squid restart")
 
 @task(alias='soundgreeting')
 @parallel
+@roles('workstations')
 @with_settings(warn_only=True)
 def soundgreeting():
         if not _is_host_up(env.host):
