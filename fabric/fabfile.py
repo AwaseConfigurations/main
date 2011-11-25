@@ -1,7 +1,6 @@
 from fabric.api import *
 import socket
 import paramiko
-from fabric.contrib.console import confirm
 
 env.user='ubuntu'
 env.password='ubuntu'
@@ -36,9 +35,8 @@ def init():
 	run("wget https://raw.github.com/AwaseConfigurations/main/master/scripts/staticip.sh")
 	run("chmod +x staticip.sh")
 	sudo("./staticip.sh")
-	#sshkey()
-	#change_passwd('ubuntu','')
-
+	add_user('simo')
+	
 @task(alias='main')
 @roles('workstations')
 @parallel
