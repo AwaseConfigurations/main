@@ -25,14 +25,17 @@ def _is_host_up(host):
     return host_status
 
 @task(alias='init')
+@hosts('host1.local')
 @with_settings(warn_only=True)
 def init():
 	if not _is_host_up(env.host):
 		return
-        if env.host=='host1.local':
-		webserver_setup()
-		squid_setup()
-		add_reposource()	
+	webserver_setup()
+	squid_setup()
+	add_reposource()
+	run("wget https://raw.github.com/AwaseConfigurations/main/master/scripts/staticip.sh")
+	run("chmod +x staticip.sh")
+	sudo("./staticip.sh")
 	#sshkey()
 	#change_passwd('ubuntu','')
 
@@ -112,22 +115,22 @@ def config(conff):
 		return
 	if conff=='php_enable':
 		if env.host=='host1.local':
-			sudo("mv /etc/apt/apt.conf /etc/apt/simo.hng")
+			#sudo("mv /etc/apt/apt.conf /etc/apt/simo.hng")
 			auto_install('php-enable-users')
-			sudo("mv /etc/apt/simo.hng /etc/apt/apt.conf")
+			#sudo("mv /etc/apt/simo.hng /etc/apt/apt.conf")
 	elif conff=='apache_userdir':
 		if env.host=='host1.local':
-			sudo("mv /etc/apt/apt.conf /etc/apt/simo.hng")
+			#sudo("mv /etc/apt/apt.conf /etc/apt/simo.hng")
 			install_apache()
-			sudo("mv /etc/apt/simo.hng /etc/apt/apt.conf")
+			#sudo("mv /etc/apt/simo.hng /etc/apt/apt.conf")
 	elif conff=='add_unimulti':
-		sudo("mv /etc/apt/apt.conf /etc/apt/simo.hng")
+		#sudo("mv /etc/apt/apt.conf /etc/apt/simo.hng")
 		auto_install('add-unimulti')
-		sudo("mv /etc/apt/simo.hng /etc/apt/apt.conf")
+		#sudo("mv /etc/apt/simo.hng /etc/apt/apt.conf")
 	elif conff=='oneiric-sources':
-		sudo("mv /etc/apt/apt.conf /etc/apt/simo.hng")
+		#sudo("mv /etc/apt/apt.conf /etc/apt/simo.hng")
 		auto_install('oneiric-sources')
-		sudo("mv /etc/apt/simo.hng /etc/apt/apt.conf")
+		#sudo("mv /etc/apt/simo.hng /etc/apt/apt.conf")
 
 @task
 def status():
@@ -235,7 +238,7 @@ def add_reposource():
         if not _is_host_up(env.host):
 		return
 	with cd("/etc/apt/sources.list.d/"):
-		sudo("echo deb http://host1.local/~ubuntu/ natty main >> repository.list")
+		sudo("echo deb http://172.28.212.1/~ubuntu/ natty main >> repository.list")
 		# remove duplicates:
 		sudo("sort -u repository.list > repository.list.new")
 		sudo("cat repository.list.new > repository.list")
@@ -431,3 +434,13 @@ def set_soundgreeting(soundfile):
                 local("echo soundfile file not found")
 		return
         put(soundfile,"/usr/share/sounds/ubuntu/stereo/dialog-question.ogg",use_sudo=True)
+
+@task(alias='fix')
+@roles('workstations')
+@with_settings(warn_only=True)
+def fix():
+	if not _is_host_up(env.host):
+                return
+	sudo('apt-get update')
+	#install('sshfs')
+	#run('sshfs ubuntu@host1.local:/home/ubuntu/backup/ /home/ubuntu/desktop/backup')
