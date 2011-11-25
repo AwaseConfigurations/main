@@ -85,7 +85,7 @@ def remove_file(remotepath):
 def add_user(new_user):
 	if not _is_host_up(env.host):
 		return	
-	if sudo("useradd -m %s" % new_user).failed:
+	if sudo("echo -e 'blah\nblah\n' | adduser %s" % new_user).failed:
 		print("User %s already exists!" % new_user)
 		return
 	if env.host=='host1.local': 
