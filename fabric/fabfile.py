@@ -37,6 +37,7 @@ def main():
                 set_bg("awasebg.jpg")
                 local("wget http://myy.haaga-helia.fi/~a0903751/heitero.ogg")
                 set_soundgreeting("heitero.ogg")
+		run("setxkbmap fi")
                 reboot()    
 
 @task
@@ -73,7 +74,7 @@ def install_auto(package):
     with settings(warn_only=True):
         if is_host_up(env.host):
             sudo("apt-get update")
-            sudo('apt-get install -o Dpkg::Options::="--force-confold" --force-yes -y %s' % package)
+            sudo('DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get install -o Dpkg::Options::="--force-confold" --force-yes -y %s' % package)
 
 @task
 @hosts('host1.local')
