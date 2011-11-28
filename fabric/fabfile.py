@@ -354,3 +354,13 @@ def smartmon():
 	        if is_host_up(env.host):
 			smartmon_setup()
 			sudo('smartctl -H /dev/sda | grep "test result"')
+
+@task
+def ssh_disable_passwd():
+	"""Disable SSH password authentication"""
+	with settings(hide('running', 'user'), warn_only=True):
+	        if is_host_up(env.host):
+			sudo('echo PasswordAuthentication no >> /etc/ssh/sshd_config')
+			sudo('service ssh restart')
+
+
