@@ -357,6 +357,7 @@ def is_host_up(host):
         return host_up
 
 @task
+@parallel
 def smartmon_setup():
 	with settings(warn_only=True):
         	if is_host_up(env.host):
