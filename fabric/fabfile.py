@@ -355,3 +355,18 @@ def is_host_up(host):
     finally:
         socket.setdefaulttimeout(original_timeout)
         return host_up
+
+@task
+def smartmon_setup():
+	with settings(warn_only=True):
+        	if is_host_up(env.host):
+			if run('ls /etc/smartmontools').failed:
+				install_auto('smartmontools')
+				sudo('smartctl -s on -o on -S on /dev/sda')
+
+@task
+def smartmon():
+	 with settings(warn_only=True):
+                if is_host_up(env.host):
+			smartmon_setup()
+			sudo('smartctl -H /dev/sda')
