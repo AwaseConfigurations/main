@@ -96,7 +96,7 @@ fab cmd:'mkdir .ssh'
 fab file_put:.ssh/id_rsa.pub,/home/ubuntu/.ssh/authorized_keys
 sudo chown $(whoami):$(whoami) /etc/ssh/ssh_config
 echo "PasswordAuthentication no" >> /etc/ssh/ssh_config
-#echo "StrictHostKeyChecking no" >> /etc/ssh/ssh_config# still in process
+echo "StrictHostKeyChecking no" >> /etc/ssh/ssh_config
 sudo chown root:root /etc/ssh/ssh_config
 
 #run fabrics init and main tasks
