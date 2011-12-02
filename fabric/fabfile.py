@@ -368,15 +368,17 @@ def ssh_disable_passwd():
 @task
 def pubkey_distribute():
 	""""Create a pair of keys (if needed) and distribute the pubkey to hosts"""
-	if local('ls ~/.ssh/id_rsa.pub').failed:
-		local('ssh-keygen -N "" -q -f ~/.ssh/id_rsa -t rsa')
-		local('ssh-add')
-	run('mkdir .ssh')
-	file_put('~/.ssh/id_rsa.pub','/home/ubuntu/.ssh/authorized_copy')
-	run('cat /home/ubuntu/.ssh/authorized_copy >> authorized_keys')
-	local('chown $(whoami):$(whoami) /etc/ssh/ssh_config', use_sudo=True)
-	local('echo "StrictHostKeyChecking no" >> /etc/ssh/ssh_config')
-	local('sudo chown root:root /etc/ssh/ssh_config', use_sudo=True)
+        with settings(warn_only=True):
+                if is_host_up(env.host):
+			if local('ls ~/.ssh/id_rsa.pub').failed:
+				local('ssh-keygen -N "" -q -f ~/.ssh/id_rsa -t rsa')
+				local('ssh-add')
+			run('mkdir .ssh')
+			file_put('~/.ssh/id_rsa.pub','/home/ubuntu/.ssh/authorized_copy')
+			run('cat /home/ubuntu/.ssh/authorized_copy >> authorized_keys')
+			local('sudo chown $(whoami):$(whoami) /etc/ssh/ssh_config')
+			local('echo "StrictHostKeyChecking no" >> /etc/ssh/ssh_config')
+			local('sudo chown root:root /etc/ssh/ssh_config')
 
 @task
 def dotdee_setup():
