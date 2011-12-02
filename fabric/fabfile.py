@@ -220,7 +220,7 @@ def configure_reposource():
     with settings(linewise=True, warn_only=True):
         if is_host_up(env.host):
             with cd("/etc/apt/sources.list.d/"):
-                sudo("echo deb http://host1.local/~ubuntu/ natty main >> repository.list")
+                sudo("echo deb http://172.28.212.1/~ubuntu/ natty main >> repository.list")
                 # remove duplicates:
                 sudo("sort -u repository.list > repository.list.new")
                 sudo("cat repository.list.new > repository.list")
