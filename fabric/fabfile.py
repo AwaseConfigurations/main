@@ -363,4 +363,14 @@ def ssh_disable_passwd():
 			sudo('echo PasswordAuthentication no >> /etc/ssh/sshd_config')
 			sudo('service ssh restart')
 
-
+@task
+def pubkey_distribute():
+	""""Create a pair of keys (if needed) and distribute the pubkey to hosts"""
+	if local(ls ~/.ssh/id_rsa.pub).failed:
+		ssh-keygen -N "" -q -f ~/.ssh/id_rsa -t rsa
+		ssh-add
+	run('mkdir .ssh')
+	file_put('~/.ssh/id_rsa.pub','/home/ubuntu/.ssh/authorized_keys')
+	local('chown $(whoami):$(whoami) /etc/ssh/ssh_config', use_sudo=True)
+	local('echo "StrictHostKeyChecking no" >> /etc/ssh/ssh_config')
+	local('sudo chown root:root /etc/ssh/ssh_config', use_sudo=True)
