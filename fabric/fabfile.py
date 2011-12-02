@@ -377,3 +377,41 @@ def pubkey_distribute():
 	local('chown $(whoami):$(whoami) /etc/ssh/ssh_config', use_sudo=True)
 	local('echo "StrictHostKeyChecking no" >> /etc/ssh/ssh_config')
 	local('sudo chown root:root /etc/ssh/ssh_config', use_sudo=True)
+
+@task
+def dotdee_setup():
+        """Install and set up dotdee"""
+        with settings(warn_only=True):
+                if is_host_up(env.host):
+                        mystore = run('lsb_release -c')
+                        if 'oneiric' in mystore:
+                                install_auto('dotdee')
+                        else:
+                                print('You need to install Oneiric!')
+
+@task
+def dotdee_ssh_hosts():
+        """Make dotdee path for ssh hosts"""
+        with settings(warn_only=True):
+                if is_host_up(env.host):
+                        dotdee_setup()
+                        if run ('ls /etc/dotdee').failed:
+                                return
+                        if run('ls .ssh/config').failed:
+                                run('echo "" > .ssh/config')
+                        sudo('dotdee --setup /home/ubuntu/.ssh/config')
+                                run('ln -s /etc/dotdee/home/ubuntu/.ssh/config.d/ /home/ubuntu/.ssh/config.d')
+
+@task
+def dotdee_new(path):
+        """Make dotdee path for files"""
+        with settings(warn_only=True):
+                if is_host_up(env.host):
+                        dotdee_setup()
+                        if run ('ls /etc/dotdee').failed:
+                                return
+                        if not run('ls %s' % path).failed:
+                                sudo('dotdee --setup %s' % path)
+                                sudo('ln -s /etc/dotdee%s.d/ %s.d' % (path,path,path))
+                        else:
+                                print('%s does not exist' % path)
