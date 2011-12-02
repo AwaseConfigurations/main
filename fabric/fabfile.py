@@ -99,7 +99,7 @@ def uninstall(package):
 @task
 @parallel
 def update():
-    """Update apt-get"""
+    """Update package list"""
     with settings(linewise=True, warn_only=True):
         if is_host_up(env.host):
             sudo("apt-get update")
@@ -107,7 +107,7 @@ def update():
 @task
 @parallel
 def upgrade():
-    """pass a sudo command to the hosts"""
+    """Upgrade packages"""
     with settings(linewise=True, warn_only=True):
         if is_host_up(env.host):
             sudo("apt-get update")
@@ -126,16 +126,18 @@ def upgrade_auto():
 @parallel
 @roles('workstations')
 def upgrade_to_oneiric():
-    """Upgrade Ubuntu distribution to oneiric"""
+    """Upgrade Ubuntu natty distribution to oneiric"""
     with settings(linewise=True, warn_only=True):
         if is_host_up(env.host):
             if not run('lsb_release -c') == 'Codename:    oneiric':
 	         install_auto('oneiric-sources')
                  sudo("apt-get update")
                  sudo('DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get dist-upgrade -o Dpkg::Options::="--force-confold" --force-yes -y')
-                 local("wget http://myy.haaga-helia.fi/~a0900094/awasebg.jpg")
+                 if local('ls awasebg.jpg').failed:
+			local("wget http://myy.haaga-helia.fi/~a0900094/awasebg.jpg")
                  set_bg("awasebg.jpg")
-                 local("wget http://myy.haaga-helia.fi/~a0903751/heitero.ogg")
+                 if local('ls heitero.ogg').failed:
+			local("wget http://myy.haaga-helia.fi/~a0903751/heitero.ogg")
                  set_soundgreeting("heitero.ogg")
                  sudo("reboot")
 
