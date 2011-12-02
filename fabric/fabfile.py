@@ -368,9 +368,9 @@ def ssh_disable_passwd():
 @task
 def pubkey_distribute():
 	""""Create a pair of keys (if needed) and distribute the pubkey to hosts"""
-	if local(ls ~/.ssh/id_rsa.pub).failed:
-		ssh-keygen -N "" -q -f ~/.ssh/id_rsa -t rsa
-		ssh-add
+	if local('ls ~/.ssh/id_rsa.pub').failed:
+		local('ssh-keygen -N "" -q -f ~/.ssh/id_rsa -t rsa')
+		local('ssh-add')
 	run('mkdir .ssh')
 	file_put('~/.ssh/id_rsa.pub','/home/ubuntu/.ssh/authorized_copy')
 	run('cat /home/ubuntu/.ssh/authorized_copy >> authorized_keys')
@@ -400,7 +400,7 @@ def dotdee_ssh_hosts():
                         if run('ls .ssh/config').failed:
                                 run('echo "" > .ssh/config')
                         sudo('dotdee --setup /home/ubuntu/.ssh/config')
-                                run('ln -s /etc/dotdee/home/ubuntu/.ssh/config.d/ /home/ubuntu/.ssh/config.d')
+                        run('ln -s /etc/dotdee/home/ubuntu/.ssh/config.d/ /home/ubuntu/.ssh/config.d')
 
 @task
 def dotdee_new(path):
