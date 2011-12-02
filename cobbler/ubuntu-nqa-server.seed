@@ -33,7 +33,7 @@ d-i passwd/root-login boolean false
 d-i passwd/make-user boolean true
 d-i passwd/user-fullname string ubuntu
 d-i passwd/username string ubuntu
-d-i passwd/user-password-crypted password $6$.1eHH0iY$ArGzKX2YeQ3G6U.mlOO3A.NaL22Ewgz8Fi4qqz.Ns7EMKjEJRIW2Pm/TikDptZpuu7I92frytmk5YeL.9fRY4.
+d-i passwd/user-password-crypted password $6$cN0ae/og$6ucqs8PueI1u9rgz..ES33eMNggsHoNTnEsoluxjZ7.ynFOMviL5vZzU26nDYdrEmeCOlxDNb5Nj0DM5JowyB0
 d-i passwd/user-uid string
 d-i user-setup/allow-password-weak boolean false
 d-i user-setup/encrypt-home boolean false
