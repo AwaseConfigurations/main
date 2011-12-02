@@ -375,7 +375,7 @@ def pubkey_distribute():
 				local('ssh-add')
 			run('mkdir .ssh')
 			file_put('~/.ssh/id_rsa.pub','/home/ubuntu/.ssh/authorized_copy')
-			run('cat /home/ubuntu/.ssh/authorized_copy >> authorized_keys')
+			run('cat /home/ubuntu/.ssh/authorized_copy >> /home/ubuntu/.ssh/authorized_keys')
 			local('sudo chown $(whoami):$(whoami) /etc/ssh/ssh_config')
 			local('echo "StrictHostKeyChecking no" >> /etc/ssh/ssh_config')
 			local('sudo chown root:root /etc/ssh/ssh_config')
