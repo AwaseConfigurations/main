@@ -1,126 +1,213 @@
+Documentation for fabfile methods and a generic guide to using the commands.
+
+In Fabric you have a certain syntax to use with each command. After installing fabric it runs with fab install type of command in terminal. When the command requires a parameter like in the install command you can either simply pass it after the command like this fab install:geany or you can name the parameter like fab install:package=”geany”. Several parameters should be separated with a comma.
+To mix things up a bit we then have fabrics internal parameters you can add such as hosts or roles. To pass the command only to specific machines you can add parameter hosts=”admin@host.local;admin@host2.local” or to a set of hosts specified in fabfile roles roles=”workstations”. So to install geany in all workstations we would put it like fab install:geany,roles=”workstations” or to install geany on just host3 we would do fab install:geany,hosts=”admin@host3.local” noting that admin is the user we have installed on the host computer that has rights to do such changes.
+
+fab -l lists all the available commands and their short descriptions.
+
 fabfile methods:
 
-_is_host_up(host)
-Checks whether the slave is online.
+init
+Description: Fabric server installation task
 
-init()
-
-main()
-
-put_file(localpath,remotepath)
-
-Examples:
-fab put_file:'testfile','/home/ubuntu/'
-fab put_file:hosts="admin@webserver;admin@ws1",path1='/home/admin/index.html',path2='/home/admin/public_html/'
-fab put_file:path1='/home/admin/package.deb',path2='/tmp/'
+           
+main
+Description: Fabric main installation for workstations
 
 
-get_file(remotepath,localpath)
-
-Examples:
-fab get_file:hosts="admin@webserver",path1='/var/log/auth.log',path2='/home/admin/logs/'
-fab get_file:path1='/var/log/auth.log',path2='/home/admin/logs/'
+cmd
+parameters: command
+Description: Fabric task that passes a command to the hosts
 
 
-remove_file(remotepath)
-
-Examples:
-add_user(user)
-fab add_user:dude
-fab add_user:new_user='dude'
+cmds
+parameters: command
+Description: Fabric task that passes a sudo command to the hosts
 
 
-change_passwd(user, passwod)
-
-Examples:
-delete_user(user)	# this does not delete user home folder
-fab delete_user:dude
-
-
-config(conff)
-
-status
-fab status
-
-install(package)
-
+install
+parameters: package
+Description: Fabric task that installs a package
 Examples:
 fab install:geany
-fab install:gnome,roles='workstations'
+fab install:geany,roles='workstations'
 fab install:php5,roles='servers'
 
 
-uninstall(package)
+install_auto
+parameters: package
+Description: Fabric task that installs a package while answering yes to all questions
+Example:
+fab install_auto:cobbler
 
-Examples:
+
+install_apache
+Description: Fabric task that installs Apache server with userdir enabled on host1.local
+Example:
+fab install_apache
+
+
+uninstall
+parameters: package
+Description: Fabric task that uninstalls a package
+Example:
 fab uninstall:geany
+fab uninstall:gnome,roles='workstations'
+fab uninstall:php5,roles='servers'
 
 
-reboot()
-
-Examples:
-fab reboot
-fab reboot:hosts='ws1;ws2;ws3'
-
-
-shutdown()
-
-Examples:
-fab shut_down
-
-
-update()
-
+update
+Description: Fabric task that updates apt-get
 Examples:
 fab update
+fab update:roles='workstations'
 
 
-upgrade()
-
+upgrade
+Description: Fabric task that runs update apt-get and upgrade apt-get
 Examples:
 fab upgrade
 fab upgrade:roles='servers'
 
 
-auto_install(package)
-
+upgrade_auto
+Description: Fabric task that runs update apt-get and upgrade apt-get while answering yes to all questions
 Examples:
+fab upgrade_auto
 
 
-auto_upgrade()
+upgrade_to_oneiric
+Description: Fabric task that upgrades Ubuntu distribution to oneiric on workstations
+Examples:
+fab upgrade_to_oneiric
 
-auto_dist_upgrade()
 
-release_upgrade()
+user_add
+parameters: new_user
+Description: Fabric task that adds a new user
+Example:
+fab user_add:timo
 
-add_reposource()
 
-install_apache()
+user_passwd
+parameters: user, passwd (optional)
+Description: Fabric task that changes the password for user or generates random one (per host) if no passwd parameter is passed
 
-webserver_setup()
 
-reprepro_setup()
+user_delete
+parameters: user
+Description: Fabric task that deletes a user but not his home directory
+Example:
+fab user_delete:simo
+fab user_delete:simo,roles='workstations'
 
-add_to_repo()
 
-clonegit()
+status
+Description: Fabric task displaying host status
+Example:
+fab status
+fab status:roles='servers'
 
-sshkey()
 
-bg()
+shut_down
+Description: Fabric task that shuts down a host
+Example:
+fab shut_down
+fab shut_down:roles='workstations'
 
-set_bg(bg)
 
-bg_old2()
+reboot
+Description: Fabric task that reboots a host
+Example:
+fab reboot
+fab reboot:roles='workstations'
 
-bg_old()
 
-cmd(command)
+file_put
+parameters: localpath, remotepath
+Description: Fabric task that puts a file from local path to remote path
+Example:
+fab file_put:'testfile','/home/ubuntu/'
+fab file_put:hosts="admin@webserver;admin@ws1",localpath='/home/admin/index.html',remotepath='/home/admin/public_html/'
 
-scmd(command)
 
-point_to_proxy()
+file_get
+Parameters: remotepath, localpath
+Description: Fabric task that gets a file from remote path to local path
+Example:
+fab file_get:'/var/log/auth.log','/home/admin/logs/'
+fab file_get:hosts="admin@webserver",remotepath='/var/log/auth.log',localpath='/home/admin/logs/'
 
-sshfs()
 
-squid_setup()
+file_remove
+parameters: remotepath
+Description: Fabric task that removes a file at the remote path
+Example:
+fab file_remove:'/home/ubuntu/testfile'
+fab file_remove:hosts="admin@webserver",remotepath='/home/ubuntu/testfile'
+
+
+configure_reposource
+Description: Fabric task adding host1.local to repository list for a host
+       
+
+set_bg
+parameters: bg
+Description: Fabric task setting an image file to be used as background
+
+
+set_soundgreeting
+parameters: soundfile
+Description: Fabric task setting a sound file to be used on login
+
+
+setup_webserver
+Description: Internal task that sets up the webserver on host1.local
+
+
+clonegit
+Description: Internal task that clones awaseConfigurations git source on host1.local
+
+
+add_to_repo
+Description: Internal task that adds sources to reprepro on host1.local
+
+
+setup_squid
+Description: Internal task that sets up squid for host1.local
+
+           
+setup_reprepro
+Description: Internal task that sets up reprepro for host1.local
+
+               
+point_to_proxy
+Description: Internal task that adds proxy information to apt.conf file
+
+
+generate_passwd
+parameters: length
+Description: Internal task used to generate a random password
+
+
+is_host_up
+Parameters: host
+Description: Internal task used to verify if the host computer is online before action
+
+
+smartmon_setup
+Description: Fabric task used to install and set up smartmontools
+
+
+smartmon
+Description: Fabric task used to SMART overall-health self-assesment test using smartmontools
+
+
+ssh_disable_passwd
+Description: Fabric task used to disable SSH password authentication
+
+
+pubkey_distribute
+Description: Fabric task that creates a pair of keys (if needed) and distributes the public key to hosts
+
+
