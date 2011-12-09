@@ -65,7 +65,7 @@ def install(package):
             sudo("apt-get update")
             for retry in range(2):
                 if sudo("apt-get -y install %s" % package).failed:
-                    local("echo INSTALLATION ATTEMPT %s FAILED FOR " + env.host + ": failed to install %s $(date) >> ~/fail.log" % ((retry+1),package))
+                    local("echo INSTALLATION FAILED FOR %s: was installing %s $(date) >> ~/fail.log" % (env.host,package))
                 else:
                     break
 
