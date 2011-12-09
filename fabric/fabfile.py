@@ -33,9 +33,11 @@ def main():
             update()
             if run("ls /etc/gnome").failed:
                 install('ubuntu-desktop')
-                local("wget http://myy.haaga-helia.fi/~a0900094/awasebg.jpg")
+		if local('ls awasebg.jpg').failed:
+	                local("wget http://myy.haaga-helia.fi/~a0900094/awasebg.jpg")
                 set_bg("awasebg.jpg")
-                local("wget http://myy.haaga-helia.fi/~a0903751/heitero.ogg")
+                if local('ls heitero.ogg').failed:
+			local("wget http://myy.haaga-helia.fi/~a0903751/heitero.ogg")
                 set_soundgreeting("heitero.ogg")
 		run('setxkbmap fi')
                 reboot()    
