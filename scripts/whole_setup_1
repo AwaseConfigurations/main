@@ -90,16 +90,9 @@ wget https://raw.github.com/AwaseConfigurations/main/master/scripts/getfabric
 chmod u+x getfabric
 ./getfabric
 
-#generate pair of keys, put public key to workstations
-ssh-keygen -N "" -q -f ~/.ssh/id_rsa -t rsa
-ssh-add
-fab cmd:'mkdir .ssh'
-fab file_put:.ssh/id_rsa.pub,/home/ubuntu/.ssh/authorized_keys
-sudo chown $(whoami):$(whoami) /etc/ssh/ssh_config
-echo "StrictHostKeyChecking no" >> /etc/ssh/ssh_config
-sudo chown root:root /etc/ssh/ssh_config
+#generate pair of keys [if absent], put public key to workstations
+fab pubkey_distribute
 
 #run fabrics init and main tasks
 fab init
 fab main
-
