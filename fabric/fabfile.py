@@ -18,6 +18,7 @@ def init():
             setup_webserver()
             setup_squid()
             configure_reposource()
+	    user_add('simo','password')
             
 @task
 @roles('workstations')
