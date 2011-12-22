@@ -1,3 +1,6 @@
+# Copyright © 2011 Henri Siponen, Armens Movsesjans, Panu Salmi
+# License: GNU General Public License, version 2 or later
+
 from fabric.api import parallel, settings, run, sudo, local, roles, env, cd, put, get, hosts, task, hide
 import socket
 import paramiko
