@@ -1,0 +1,609 @@
+# http://awaseconfigurations.wordpress.com
+
+authoritative;  # Warning: this overrides other DHCP servers
+ddns-update-style none;
+default-lease-time 600;
+max-lease-time 7200;
+log-facility local7;
+subnet 172.28.0.0 netmask 255.255.0.0 {
+	host host1 { 
+		hardware ethernet 78:ac:c0:c1:09:e8; 
+		fixed-address 172.28.212.1; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host2 { 
+		hardware ethernet 78:ac:c0:ba:79:73; 
+		fixed-address 172.28.212.2; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host3 { 
+		hardware ethernet 78:ac:c0:c0:8a:e4; 
+		fixed-address 172.28.212.3; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host4 { 
+		hardware ethernet 78:ac:c0:c0:88:53; 
+		fixed-address 172.28.212.4; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host5 { 
+		hardware ethernet 78:ac:c0:c1:1b:80; 
+		fixed-address 172.28.212.5; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host6 { 
+		hardware ethernet 78:ac:c0:c2:8c:5e; 
+		fixed-address 172.28.212.6; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host7 { 
+		hardware ethernet 78:ac:c0:c0:88:79; 
+		fixed-address 172.28.212.7; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host8 { 
+		hardware ethernet 78:ac:c0:c1:09:a3; 
+		fixed-address 172.28.212.8; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host9 { 
+		hardware ethernet 78:ac:c0:c1:05:f4; 
+		fixed-address 172.28.212.9; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host10 { 
+		hardware ethernet 78:ac:c0:c0:8b:47; 
+		fixed-address 172.28.212.10; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host11 { 
+		hardware ethernet 78:ac:c0:c2:8c:83; 
+		fixed-address 172.28.212.11; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host12 { 
+		hardware ethernet 78:ac:c0:c4:09:17; 
+		fixed-address 172.28.212.12; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host13 { 
+		hardware ethernet 78:ac:c0:c2:8c:5a; 
+		fixed-address 172.28.212.13; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host14 { 
+		hardware ethernet 78:ac:c0:c2:8c:85; 
+		fixed-address 172.28.212.14; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host15 { 
+		hardware ethernet 78:ac:c0:c0:8a:8b; 
+		fixed-address 172.28.212.15; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host16 { 
+		hardware ethernet 78:ac:c0:c0:8f:9b; 
+		fixed-address 172.28.212.16; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host17 { 
+		hardware ethernet 78:ac:c0:c1:0a:96; 
+		fixed-address 172.28.212.17; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host18 { 
+		hardware ethernet 78:ac:c0:c4:09:18; 
+		fixed-address 172.28.212.18; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host19 { 
+		hardware ethernet 78:ac:c0:c4:09:1c; 
+		fixed-address 172.28.212.19; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host20 { 
+		hardware ethernet 2c:41:38:b5:f2:6b; 
+		fixed-address 172.28.212.20; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host21 { 
+		hardware ethernet 78:ac:c0:c2:8b:62; 
+		fixed-address 172.28.212.21; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host22 { 
+		hardware ethernet 2c:27:d7:19:01:3e; 
+		fixed-address 172.28.212.22; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host23 { 
+		hardware ethernet 78:ac:c0:c0:89:f5; 
+		fixed-address 172.28.212.23; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host24 { 
+		hardware ethernet 78:ac:c0:c0:88:93; 
+		fixed-address 172.28.212.24; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host25 { 
+		hardware ethernet 78:ac:c0:c0:8e:47; 
+		fixed-address 172.28.212.25; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host26 { 
+		hardware ethernet 78:ac:c0:c0:8a:7f; 
+		fixed-address 172.28.212.26; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host27 { 
+		hardware ethernet 78:ac:c0:c1:11:03; 
+		fixed-address 172.28.212.27; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host28 { 
+		hardware ethernet 78:ac:c0:c0:88:49; 
+		fixed-address 172.28.212.28; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host29 { 
+		hardware ethernet 78:ac:c0:c1:0a:83; 
+		fixed-address 172.28.212.29; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host30 { 
+		hardware ethernet 78:ac:c0:c0:88:fc; 
+		fixed-address 172.28.212.30; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host31 { 
+		hardware ethernet 78:ac:c0:c0:97:e7; 
+		fixed-address 172.28.212.31; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host32 { 
+		hardware ethernet 78:ac:c0:c1:0a:85; 
+		fixed-address 172.28.212.32; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host33 { 
+		hardware ethernet 78:ac:c0:c1:09:a6; 
+		fixed-address 172.28.212.33; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host34 { 
+		hardware ethernet 78:ac:c0:c0:8a:7b; 
+		fixed-address 172.28.212.34; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host35 { 
+		hardware ethernet 78:ac:c0:ba:7a:6b; 
+		fixed-address 172.28.212.35; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host36 { 
+		hardware ethernet 78:ac:c0:c0:8e:ba; 
+		fixed-address 172.28.212.36; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host37 { 
+		hardware ethernet 78:ac:c0:c0:8d:e0; 
+		fixed-address 172.28.212.37; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host38 { 
+		hardware ethernet 78:ac:c0:c1:09:9c; 
+		fixed-address 172.28.212.38; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host39 { 
+		hardware ethernet 78:ac:c0:c1:09:56; 
+		fixed-address 172.28.212.39; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host40 { 
+		hardware ethernet 78:ac:c0:ba:77:e4; 
+		fixed-address 172.28.212.40; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host41 { 
+		hardware ethernet 78:ac:c0:c1:08:56; 
+		fixed-address 172.28.212.41; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host42 { 
+		hardware ethernet 78:ac:c0:c1:09:ae; 
+		fixed-address 172.28.212.42; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host43 { 
+		hardware ethernet 78:ac:c0:ba:78:0b; 
+		fixed-address 172.28.212.43; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host44 { 
+		hardware ethernet 78:ac:c0:c1:0a:42; 
+		fixed-address 172.28.212.44; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host45 { 
+		hardware ethernet 78:ac:c0:c2:8b:b5; 
+		fixed-address 172.28.212.45; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host46 { 
+		hardware ethernet 78:ac:c0:c0:8a:d0; 
+		fixed-address 172.28.212.46; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host47 { 
+		hardware ethernet 78:ac:c0:c2:8c:cd; 
+		fixed-address 172.28.212.47; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host48 { 
+		hardware ethernet 78:ac:c0:c0:88:62; 
+		fixed-address 172.28.212.48; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host49 { 
+		hardware ethernet 78:ac:c0:c1:09:cb; 
+		fixed-address 172.28.212.49; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host50 { 
+		hardware ethernet 78:ac:c0:c1:0a:87; 
+		fixed-address 172.28.212.50; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host51 { 
+		hardware ethernet 78:ac:c0:ba:7b:65; 
+		fixed-address 172.28.212.51; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host52 { 
+		hardware ethernet 2c:27:d7:19:01:43; 
+		fixed-address 172.28.212.52; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host53 { 
+		hardware ethernet 2c:27:d7:19:01:84; 
+		fixed-address 172.28.212.53; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host54 { 
+		hardware ethernet 78:ac:c0:ba:7b:63; 
+		fixed-address 172.28.212.54; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host55 { 
+		hardware ethernet 78:ac:c0:c1:04:a5; 
+		fixed-address 172.28.212.55; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host56 { 
+		hardware ethernet 78:ac:c0:ba:74:e6; 
+		fixed-address 172.28.212.56; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host57 { 
+		hardware ethernet 78:ac:c0:ba:7d:2f; 
+		fixed-address 172.28.212.57; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host58 { 
+		hardware ethernet 78:ac:c0:c0:8e:27; 
+		fixed-address 172.28.212.58; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host59 { 
+		hardware ethernet 78:ac:c0:c0:8f:a1; 
+		fixed-address 172.28.212.59; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host60 { 
+		hardware ethernet 78:ac:c0:c1:1b:61; 
+		fixed-address 172.28.212.60; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host61 { 
+		hardware ethernet 78:ac:c0:c0:88:4d; 
+		fixed-address 172.28.212.61; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host62 { 
+		hardware ethernet 78:ac:c0:ba:7c:f7; 
+		fixed-address 172.28.212.62; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host63 { 
+		hardware ethernet 78:ac:c0:c1:05:cd; 
+		fixed-address 172.28.212.63; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host64 { 
+		hardware ethernet 78:ac:c0:ba:76:26; 
+		fixed-address 172.28.212.64; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host65 { 
+		hardware ethernet 78:ac:c0:c0:8b:2a; 
+		fixed-address 172.28.212.65; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host66 { 
+		hardware ethernet 78:ac:c0:c0:8a:91; 
+		fixed-address 172.28.212.66; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host67 { 
+		hardware ethernet 2c:27:d7:19:01:83; 
+		fixed-address 172.28.212.67; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host68 { 
+		hardware ethernet 78:ac:c0:ba:7c:ec; 
+		fixed-address 172.28.212.68; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host69 { 
+		hardware ethernet 78:ac:c0:ba:75:e4; 
+		fixed-address 172.28.212.69; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host70 { 
+		hardware ethernet 2c:27:d7:19:01:41; 
+		fixed-address 172.28.212.70; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host71 { 
+		hardware ethernet 78:ac:c0:ba:77:ac; 
+		fixed-address 172.28.212.71; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host72 { 
+		hardware ethernet 78:ac:c0:b1:78:f7; 
+		fixed-address 172.28.212.72; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host73 { 
+		hardware ethernet 78:ac:c0:c1:09:b6; 
+		fixed-address 172.28.212.73; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host74 { 
+		hardware ethernet 78:ac:c0:c1:11:03; 
+		fixed-address 172.28.212.74; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+	host host75 { 
+		hardware ethernet 78:ac:c0:c4:08:dc; 
+		fixed-address 172.28.212.75; 
+		option subnet-mask 255.255.0.0;
+		option routers 172.28.1.254;
+		option domain-name-servers 172.28.11.67;
+		filename "/pxelinux.0";
+	}
+}
