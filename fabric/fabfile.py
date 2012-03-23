@@ -1,4 +1,4 @@
-# Copyright © 2011 Henri Siponen, Armens Movsesjans, Panu Salmi
+# Copyright 2011 Henri Siponen, Armens Movsesjans, Panu Salmi
 # License: GNU General Public License, version 2 or later
 
 from fabric.api import *
